@@ -113,9 +113,16 @@ th, td {
 <p>Socials: <a target="_blank" rel="noopener" href="https://www.linkedin.com/in/ideaengine007/">LinkedIn</a>, <a target="_blank" rel="noopener" href="https://twitter.com/_niteshsurana">Twitter</a>, <a target="_blank" rel="noopener" rel="me" href="https://infosec.exchange/@niteshsurana">Mastodon</a>, <a target="_blank" rel="noopener" href="https://www.trendmicro.com/">Trend Micro</a><br/></p>
 </div>
 
+<h2>Upcoming Talks</h2>
 <div>
-<h2><a target="_blank" rel="noopener" href="https://www.trendmicro.com/vinfo/us/security/news/cybercrime-and-digital-threats/uncovering-silent-threats-in-azure-machine-learning-service-part-I">Breaking ML Services: Finding 0-days in Azure Machine Learning</a></h2>
-<h3><a target="_blank" rel="noopener" href="https://conference.hitb.org/hitbsecconf2023hkt/session/breaking-ml-services-finding-0-days-in-azure-machine-learning/">HackInTheBox</a> Phuket 2023: August 24-25</h3>
+<h2><a target="_blank" rel="noopener" href="https://www.trendmicro.com/vinfo/us/security/news/cybercrime-and-digital-threats/uncovering-silent-threats-in-azure-machine-learning-service-part-I">A Security Analysis of Azure Machine Learning service</a></h2>
+<h3>
+    <li><a target="_blank" rel="noopener" href="https://www.blackhat.com/us-23/briefings/schedule/#uncovering-azure39s-silent-threats-a-journey-into-cloud-vulnerabilities-33073">Black Hat USA</a> Virtual 2023: August 8-11</li>
+    <li><a target="_blank" rel="noopener" href="https://conference.hitb.org/hitbsecconf2023hkt/session/breaking-ml-services-finding-0-days-in-azure-machine-learning/">HackInTheBox</a> Phuket 2023: August 24-25</li>
+    <li><a target="_blank" rel="noopener" href="https://nullcon.net/goa-2023/speaker-uncovering-azure's-silent-threats-a-journey-into-cloud-vulnerabilities">Nullcon</a> Goa 2023: September 23-24</li>
+    <li><a target="_blank" rel="noopener" href="https://bsidesahmedabad.in/">BSides</a> Ahmedabad 2023: October 5-6</li>
+    <li><a target="_blank" rel="noopener" href="https://india.c0c0n.org/2023/agenda-day-4/">c0c0n XVI</a> Kochi 2023: October 6-7</li>
+</h3>
 <p>Cloud service providers offer Machine–Learning–as–a–Service platforms, enabling companies to leverage the power of scalability & reliability while performing ML operations. With huge adoption of such systems worldwide, the security posture of the platform itself often may go unnoticed as it has been observed in previous research about vulnerabilities in Google’s AI Hub and AWS’s Sagemaker Jupyter Notebook services. We investigated Azure ML, a managed MLaaS offering from Microsoft. Our findings are over three broad classes of security issues namely: </p>
 
 <p><b>Insecure logging of sensitive information</b>: We found five instances of credentials leaking in cleartext on Compute Instances, due to insecure usage of open-source components and insecure system design of how the environment was being provisioned.<p>
@@ -126,6 +133,18 @@ th, td {
  
 <p>Through this talk, the attendees will learn about the different issues that were found in AML, which may extend to other Cloud-based MLaaS platforms. As we take a deep dive into the security issues, we will be demonstrating various techniques we adopted while researching the service, giving the attendees a glimpse of how the security of managed services like AML can be assessed when there are blurred lines in the shared responsibility model.</p>
 
+</div>
+
+<div>
+    <h2><a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_us/research/22/i/security-breaks-teamtnts-dockerhub-credentials-leak.html">A Tale of Credential Leak of a Popular Cloud Threat Actor</a></h2>
+    <h3><a target="_blank" rel="noopener" href="https://www.hackinparis.com/conferences/a-tale-of-credential-leak-of-a-popular-cloud-threat-actor/">HackInParis</a> Paris 2023: September 28-29</h3>
+    <p>Containers are something that developers live and breathe by, as it aids them in escaping dependency hell, optimizing their workflows, and increasing their productivity. But unfortunately, attackers have been known to abuse misconfigured container components like Docker daemon over REST API. They perform malicious actions such as creating new containers, compromising the underlying host to achieve unauthorized crypto mining, and even exfiltrating sensitive information like AWS API keys and other credentials stored in files. Sometimes, they even remotely control the victim servers to expand their botnet and a lot more.</p>
+
+    <p>One such famous and one of the first threat actors leveraging the Cloud and Container threat landscape for their benefits was TeamTNT, known to use a plethora of different techniques and tactics for carrying out various campaigns by using compromised DockerHub accounts for hosting container images with their arsenal consisting of crypto miners, kernel rootkits, container escape tools, network scanners, etc.</p>
+
+    <p>This talk presents real-world findings from our deployed container API honeypots. Additionally, we observed the threat actors leak credentials of the accounts they were using for their malicious operations, giving us a unique glimpse of how threat actors leveraged the features of container registries to maximize their gain from illegal activities.</p>
+
+    <p>We will walk through a brief overview of the container honeypot, what container registries are and under what circumstances the credential leak happens. Next, we shall threat model different scenarios under which the leak can be observed. Then, we’ll share evidence of threat actors going after credentials from files once they compromised misconfigured servers. Next, we’ll go through a video demo to show how the credential leak happens and what possibly happened with the threat actor in question. Finally, we will conclude with the findings that we gathered from the honeypot.</p>    
 </div>
 
 <h2>Work Portfolio</h2>
