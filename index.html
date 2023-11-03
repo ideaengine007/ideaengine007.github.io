@@ -29,7 +29,7 @@ a:active {
 }
 
 a:visited {
-    color: #4e5656;
+    color: #2417e4;
 }
 
 a:hover {
@@ -38,6 +38,14 @@ a:hover {
 
 .box {
 	border: 2px solid #ffffff;
+	margin-top: 10px;
+	padding: 3px 15px 15px 15px;
+	border-radius: 10px;
+	background-color: #000000;
+}
+
+.box-silent {
+	border: 2px solid #000000;
 	margin-top: 10px;
 	padding: 3px 15px 15px 15px;
 	border-radius: 10px;
@@ -97,22 +105,32 @@ th, td {
     font-family: 'Trebuchet MS', Helvetica, Arial, sans-serif;
     font-weight: 200;
 }
+#fillwidth {
+    width: 100vh;
+}
 
 </style>
 </head>
 <body>
+<div class="box-silent">
+<img src="https://avatars.githubusercontent.com/u/34381157?v=4" width="100" height="100" align="right">
 <div id="intro">
 <h1>Nitesh Surana</h1>
 </div>
-<img src="https://avatars.githubusercontent.com/u/34381157?v=4" width="100" height="100" align="right">
 <br/>
 <div id="bio">
 <p>
-    I work as a Senior Threat Researcher at Trend Micro, with a focus on Cloud and Container Threat Research. 
+    I work as a Senior Threat Researcher at Trend Micro, focusing on all things Cloud.
 </p>
-<p>Socials: <a target="_blank" rel="noopener" href="https://www.linkedin.com/in/ideaengine007/">LinkedIn</a>, <a target="_blank" rel="noopener" href="https://twitter.com/_niteshsurana">Twitter</a>, <a target="_blank" rel="noopener" rel="me" href="https://infosec.exchange/@niteshsurana">Mastodon</a>, <a target="_blank" rel="noopener" href="https://www.trendmicro.com/">Trend Micro</a></p>
+<p>Socials:
+    <a target="_blank" rel="noopener" href="https://www.trendmicro.com/">Trend Micro</a>,
+    <a target="_blank" rel="noopener" href="https://www.linkedin.com/in/ideaengine007/">LinkedIn</a>, 
+    <a target="_blank" rel="noopener" href="https://twitter.com/_niteshsurana">Twitter</a>, 
+    <a target="_blank" rel="noopener" href="https://infosec.exchange/@niteshsurana">Mastodon</a>,
+    <a target="_blank" rel="noopener" href="https://www.youtube.com/@niteshsurana">YouTube</a>
+</p>
 </div>
-
+<!--
 <h2>Upcoming Talks</h2>
 <div>
 <h2>1. Security Analysis of Azure Machine Learning service</h2>
@@ -146,69 +164,22 @@ th, td {
 
     <p>We will walk through a brief overview of the container honeypot, what container registries are and under what circumstances the credential leak happens. Next, we shall threat model different scenarios under which the leak can be observed. Then, we’ll share evidence of threat actors going after credentials from files once they compromised misconfigured servers. Next, we’ll go through a video demo to show how the credential leak happens and what possibly happened with the threat actor in question. Finally, we will conclude with the findings that we gathered from the honeypot.</p>    
 </div>
-
+-->
 <h2>Work Portfolio</h2>
 <div class="middle">
     <div class="box">
-    <h3>ZDI Submissions</h3>
+    <h3>ZDI Bugs (Valid Submissions)</h3>
     <ul>
-        <table>
-            <tr>
-                <th>ZDI ID</th>
-                <th>CVSS</th>
-                <th>Description</th>
-            </tr>
-            <tr>
-                <td><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-1528/">ZDI-23-1528</a></td>
-                <td>10.0</td>
-                <td>Microsoft PC Manager SAS Token Incorrect Permission Assignment Authentication Bypass Vulnerability</td>
-            </tr>
-            <tr>
-                <td><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-1527/">ZDI-23-1527</a></td>
-                <td>10.0</td>
-                <td>Microsoft PC Manager SAS Token Incorrect Permission Assignment Authentication Bypass Vulnerability</td>
-            </tr>
-            <tr>
-                <td><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-1056/">ZDI-23-1056</a></td>
-                <td>4.4</td>
-                <td>(0Day) Microsoft Azure Machine Learning Compute Instance certificate Exposure of Resource to Wrong Sphere Information Disclosure Vulnerability</td>
-            </tr>
-            <tr>
-                <td><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-1044/">ZDI-23-1044</a></td>
-                <td>9.9</td>
-                <td>(0Day) Microsoft GitHub Dev-Containers Improper Privilege Management Privilege Escalation Vulnerability</td>
-            </tr>
-            <tr>
-                <td><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-880/">ZDI-23-880</a></td>
-                <td>5.5</td>
-                <td>Microsoft Azure Machine Learning Service DSIMountAgent Missing Authentication Information Disclosure Vulnerability</td>
-            </tr>
-            <tr>
-                <td><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-380/">ZDI-23-380</a></td>
-                <td>6.5</td>
-                <td>Microsoft Azure Machine Learning Service DSIMountAgent Missing Authentication Information Disclosure Vulnerability</td>
-            </tr>
-            <tr>
-                <td><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-161/">ZDI-23-161</a></td>
-                <td>6.5</td>
-                <td>Microsoft Azure Machine Learning Service Cleartext Storage of Credentials Information Disclosure Vulnerability</td>
-            </tr>
-            <tr>
-                <td><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-097/">ZDI-23-097</a></td>
-                <td>6.8</td>
-                <td>Microsoft Azure Machine Learning Service JWT Cleartext Storage of Credentials Information Disclosure Vulnerability</td>
-            </tr>
-            <tr>
-                <td><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-096/">ZDI-23-096</a></td>
-                <td>6.5</td>
-                <td>Microsoft Azure Machine Learning Service Cleartext Storage of Credentials Information Disclosure Vulnerability</td>
-            </tr>
-            <tr>
-                <td><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-095/">ZDI-23-095</a></td>
-                <td>6.5</td>
-                <td>Microsoft Azure Machine Learning Service Cleartext Storage of Credentials Information Disclosure Vulnerability</td>
-            </tr>
-        </table>
+        <li><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-1528/">ZDI-23-1528</a> (10.0) Microsoft PC Manager SAS Token Incorrect Permission Assignment Authentication Bypass Vulnerability</li>
+        <li><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-1527/">ZDI-23-1527</a> (10.0) Microsoft PC Manager SAS Token Incorrect Permission Assignment Authentication Bypass Vulnerability</li>
+        <li><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-1056/">ZDI-23-1056</a> (4.4) (0Day) Microsoft Azure Machine Learning Compute Instance certificate Exposure of Resource to Wrong Sphere Information Disclosure Vulnerability</li>
+        <li><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-1044/">ZDI-23-1044</a> (9.9) (0Day) Microsoft GitHub Dev-Containers Improper Privilege Management Privilege Escalation Vulnerability</li>
+        <li><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-880/">ZDI-23-880</a> (5.5) Microsoft Azure Machine Learning Service DSIMountAgent Missing Authentication Information Disclosure Vulnerability</li>
+        <li><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-380/">ZDI-23-380</a> (6.5) Microsoft Azure Machine Learning Service DSIMountAgent Missing Authentication Information Disclosure Vulnerability</li>
+        <li><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-161/">ZDI-23-161</a> (6.5) Microsoft Azure Machine Learning Service Cleartext Storage of Credentials Information Disclosure Vulnerability</li>
+        <li><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-097/">ZDI-23-097</a> (6.8) Microsoft Azure Machine Learning Service JWT Cleartext Storage of Credentials Information Disclosure Vulnerability</li>
+        <li><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-096/">ZDI-23-096</a> (6.5) Microsoft Azure Machine Learning Service Cleartext Storage of Credentials Information Disclosure Vulnerability</li>
+        <li><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-095/">ZDI-23-095</a> (6.5) Microsoft Azure Machine Learning Service Cleartext Storage of Credentials Information Disclosure Vulnerability</li>
     </ul>
     <h3>Blogs on Attack Simulation, Honeypots, Threat Hunting</h3>
     <ul>
@@ -216,7 +187,7 @@ th, td {
         <li>2023-08-17 - <a target="_blank" rel="noopener" href="https://www.trendmicro.com/vinfo/us/security/news/cybercrime-and-digital-threats/uncovering-silent-threats-in-azure-machine-learning-service-part-I">Uncovering Silent Threats in Azure Machine Learning Service - Part 1</a></li>
         <li>2023-05-23 - <a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_in/research/23/e/info-stealer-abusing-codespaces-puts-discord-users--data-at-risk.html">Info Stealer Abusing Codespaces Puts Discord Users at Risk</a></li>
         <li>2023-05-19 - <a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_in/research/23/e/rust-based-info-stealers-abuse-github-codespaces.html">Rust-Based Info Stealers Abuse GitHub Codespaces</a></li>
-        <li>2023-01-16 - <a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_in/research/23/a/abusing-github-codespaces-for-malware-delivery.html">Abusing a GitHub Codespaces Feature For Malware Delivery</a> (<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=llqLHqCseWg">recording</a>)</li>
+        <li>2023-01-16 - <a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_in/research/23/a/abusing-github-codespaces-for-malware-delivery.html">Abusing a GitHub Codespaces Feature For Malware Delivery</a>
         <li>2022-10-26 - <a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_us/research/22/j/threat-actors-target-aws-ec2-workloads-to-steal-credentials.html">Threat Actors Target AWS EC2 Workloads to Steal Credentials</a></li>
         <li>2022-09-12 - <a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_us/research/22/i/security-breaks-teamtnts-dockerhub-credentials-leak.html">Security Breaks: TeamTNT’s DockerHub Credentials Leak</a></li>
         <li>2022-09-08 - <a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_us/research/22/i/how-malicious-actors-abuse-native-linux-tools-in-their-attacks.html">How Malicious Actors Abuse Native Linux Tools in Attacks</a></li>
@@ -231,11 +202,14 @@ th, td {
         <li>2021-07-22 - <a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_us/devops/21/g/safeguarding-against-cryptomining-attacks.html">Safeguarding against cryptomining attacks</a></li>
         <li>2021-04-21 - <a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_ca/devops/21/d/could-the-microsoft-exchange-breach-be-stopped.html">Could the Microsoft Exchange breach be stopped?</a></li>
     </ul>
-    </div>
-</div>
 
-<div class="middle">
-    <div class="box">
+    <h3>Talks</h3>
+    <ul>
+        <li>2023 - NDC Oslo - <a target="_blank" rel="noopener" href="https://youtu.be/llqLHqCseWg">Abusing GitHub for fun & profit: Actions and Codespaces Security</a></li>
+        <li>2023 - HackInTheBox Phuket - <a target="_blank" rel="noopener" href="https://youtu.be/-K08hpzevYY">Breaking ML Services: Finding 0-days In Azure Machine Learning</a></li>
+        <li>2023 - Nullcon Goa - <a target="_blank" rel="noopener" href="https://youtu.be/tv8tei97Sv8">Uncovering Azure'S Silent Threats: A Journey Into Cloud Vulnerabilities</a></li>
+    </ul>
+
     <h3>Misc</h3>
     <ul>  
         <li>2020-11-20 - <a target="_blank" rel="noopener" href="https://niteshsurana.medium.com/cve-2020-25988-a-upnp-abuse-424f0db73129">First Router Bug (or a feature?). You decide :)</a></li>
@@ -249,13 +223,10 @@ th, td {
     </ul>
     </div>
 </div>
-
 <br/>
-<br/>
-<div>
-    <p>
-        This page is heavily inspired from <a target="_blank" rel="noopener" href="https://jameskettle.com/">James Kettle</a>
-    </p>
+<p>
+    <center>This page is heavily inspired from <a target="_blank" rel="noopener" href="https://jameskettle.com/">James Kettle</a></center>
+</p>
 </div>
 </body>
 </html>
