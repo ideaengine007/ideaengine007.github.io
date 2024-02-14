@@ -120,7 +120,7 @@ th, td {
 <br/>
 <div id="bio">
 <p>
-    I work as a Senior Threat Researcher at Trend Micro focusing on Cloud Security Research.
+    I work as a Senior Threat Researcher with Trend Micro focusing on Cloud Security Research.
 </p>
 <p>Socials:
     <a target="_blank" rel="noopener" href="https://www.trendmicro.com/">Trend Micro</a>,
@@ -130,45 +130,17 @@ th, td {
     <a target="_blank" rel="noopener" href="https://www.youtube.com/@niteshsurana">YouTube</a>
 </p>
 </div>
-<!--
 <h2>Upcoming Talks</h2>
 <div>
-<h2>1. Security Analysis of Azure Machine Learning service</h2>
-<h3>
-    <li><a target="_blank" rel="noopener" href="https://www.blackhat.com/us-23/briefings/schedule/#uncovering-azure39s-silent-threats-a-journey-into-cloud-vulnerabilities-33073">Black Hat USA</a> Virtual 2023: August 8-11</li>
-    <li><a target="_blank" rel="noopener" href="https://conference.hitb.org/hitbsecconf2023hkt/session/breaking-ml-services-finding-0-days-in-azure-machine-learning/">HackInTheBox</a> Phuket 2023: August 24-25</li>
-    <li><a target="_blank" rel="noopener" href="https://nullcon.net/goa-2023/speaker-uncovering-azure's-silent-threats-a-journey-into-cloud-vulnerabilities">Nullcon</a> Goa 2023: September 23-24</li>
-    <li><a target="_blank" rel="noopener" href="https://bsidesahmedabad.in/">BSides</a> Ahmedabad 2023: October 5-6</li>
-    <li><a target="_blank" rel="noopener" href="https://india.c0c0n.org/2023/agenda-day-4/">c0c0n XVI</a> Kochi 2023: October 6-7</li>
-</h3>
-<p>Cloud service providers offer Machine–Learning–as–a–Service platforms, enabling companies to leverage the power of scalability & reliability while performing ML operations. With huge adoption of such systems worldwide, the security posture of the platform itself often may go unnoticed as it has been observed in previous research about vulnerabilities in Google’s AI Hub and AWS’s Sagemaker Jupyter Notebook services. We investigated Azure ML, a managed MLaaS offering from Microsoft. Our findings are over three broad classes of security issues namely: </p>
+<h3><a target="_blank" rel="noopener" href="https://www.blackhat.com/asia-24/briefings/schedule/#breaking-managed-identity-barriers-in-azure-services-37998">Black Hat Asia (18th-19th April, 2024, Singapore)</a> - Breaking Managed Identity Barriers In Azure Services</h3>
+<p>Identity management and authentication mechanisms together with authorization policies play a crucial role in systems security, especially when it comes to complex interdependent systems such as cloud services. One such service in Azure is Managed Identities. Managed Identities provide a universal interface for helping users to avoid storing credentials in code. Additionally, Managed Identities is used with various other Azure services. Hence, such services require special attention when it comes to service hardening while maintaining the same level of security. This also creates a need for stronger identity management to ensure secure access.</p>
 
-<p><b>Insecure logging of sensitive information</b>: We found five instances of credentials leaking in cleartext on Compute Instances, due to insecure usage of open-source components and insecure system design of how the environment was being provisioned.<p>
- 
-<p><b>MLSee:</b> We found a case of exposed APIs in cloud middleware leaking sensitive information from Compute Instances. The vulnerability could be leveraged by network-adjacent attackers after initial access to laterally move or snoop in on the commands executed using Jupyter terminal on a Compute Instance.</p> 
- 
-<p><b>Achieving Persistence:</b> While reversing cloud middleware to decipher their functionality, we found two ways to achieve persistence in AML environments. First, An attacker could fetch the Storage Account access key and the Azure AD JWT of the system-assigned managed identity assigned to the Compute Instance, even from non-Azure environments.</p>
- 
-<p>Through this talk, the attendees will learn about the different issues that were found in AML, which may extend to other Cloud-based MLaaS platforms. As we take a deep dive into the security issues, we will be demonstrating various techniques we adopted while researching the service, giving the attendees a glimpse of how the security of managed services like AML can be assessed when there are blurred lines in the shared responsibility model.</p>
-
-</div>
-
-<div>
-    <h2>2. A Tale of Credential Leak of a Popular Cloud Threat Actor</a></h2>
-    <h3><a target="_blank" rel="noopener" href="https://www.hackinparis.com/conferences/a-tale-of-credential-leak-of-a-popular-cloud-threat-actor/">HackInParis</a> Paris 2023: September 28-29</h3>
-    <p>Containers are something that developers live and breathe by, as it aids them in escaping dependency hell, optimizing their workflows, and increasing their productivity. But unfortunately, attackers have been known to abuse misconfigured container components like Docker daemon over REST API. They perform malicious actions such as creating new containers, compromising the underlying host to achieve unauthorized crypto mining, and even exfiltrating sensitive information like AWS API keys and other credentials stored in files. Sometimes, they even remotely control the victim servers to expand their botnet and a lot more.</p>
-
-    <p>One such famous and one of the first threat actors leveraging the Cloud and Container threat landscape for their benefits was TeamTNT, known to use a plethora of different techniques and tactics for carrying out various campaigns by using compromised DockerHub accounts for hosting container images with their arsenal consisting of crypto miners, kernel rootkits, container escape tools, network scanners, etc.</p>
-
-    <p>This talk presents real-world findings from our deployed container API honeypots. Additionally, we observed the threat actors leak credentials of the accounts they were using for their malicious operations, giving us a unique glimpse of how threat actors leveraged the features of container registries to maximize their gain from illegal activities.</p>
-
-    <p>We will walk through a brief overview of the container honeypot, what container registries are and under what circumstances the credential leak happens. Next, we shall threat model different scenarios under which the leak can be observed. Then, we’ll share evidence of threat actors going after credentials from files once they compromised misconfigured servers. Next, we’ll go through a video demo to show how the credential leak happens and what possibly happened with the threat actor in question. Finally, we will conclude with the findings that we gathered from the honeypot.</p>    
-</div>
--->
-<h2>Work Portfolio</h2>
+<p>In this session, we present our findings from two Azure services, highlighting how we successfully bypassed the security mechanisms of Managed Identities. Attendees will gain insights into two novel approaches for maintaining persistence in Azure Functions and Azure Machine Learning service. Our investigation uncovered security gaps and design oversights within these services. These flaws allow attackers to impersonate assigned managed identities and allows for stealthy persistence in scenarios following a compromise. We managed to extract Managed Identity Entra ID token off the Azure resources to which these identities were allocated, undermining the fundamental principle of managed identities. Furthermore, the generated logs couldn't be used to differentiate between malicious and legitimate requests, rendering the stealthy persistence in Azure Machine Learning service undetectable.<p>
+</div>	
+<h2>Portfolio</h2>
 <div class="middle">
     <div class="box">
-    <h3>ZDI Submissions</h3>
+    <h3>Vulnerability Research</h3>
     <ul>
         <li><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-1588/">ZDI-23-1588</a> (8.8) Microsoft Azure US Accelarators Synapse SAS Token Incorrect Permission Assignment Authentication Bypass Vulnerability</li>
         <li><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-1528/">ZDI-23-1528</a> (10.0) Microsoft PC Manager SAS Token Incorrect Permission Assignment Authentication Bypass Vulnerability</li>
