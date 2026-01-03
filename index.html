@@ -4,24 +4,25 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Nitesh Surana | Cloud Threat Researcher</title>
+  <link href="https://fonts.googleapis.com/css?family=Titillium+Web:300,400,600,700&display=swap" rel="stylesheet">
   <style>
-    :root{--accent:#0b69ff;--muted:#666;--base-font:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;--header-font:Georgia, "Times New Roman", Times, serif;--bg:#f7f8fb;--panel-bg:#ffffff;--panel-border:#eef5ff;--text:#111;
+    :root{--accent:#0b69ff;--muted:#666;--base-font:'Titillium Web', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;--header-font:Georgia, "Times New Roman", Times, serif;--bg:#f7f8fb;--panel-bg:#ffffff;--panel-border:#eef5ff;--text:#111;
       /* link palette (light mode) */
       --link: #0b69ff; /* primary link (blue) */
       --link-hover: #084fc4; /* darker on hover */
       --link-visited: #5a3dbb; /* visited (muted purple) */
     }
     /* dark theme overrides (toggled via data-theme="dark" on <html>) */
-    [data-theme="dark"]{--bg:#071126;--panel-bg:#071226;--panel-border:rgba(255,255,255,0.06);--text:#e6eef8;--muted:#9fb0c8;--accent:#58a6ff;
+    [data-theme="dark"]{--bg:#000000;--panel-bg:#071226;--panel-border:rgba(255,255,255,0.06);--text:#e6eef8;--muted:#9fb0c8;--accent:#58a6ff;
       /* link palette (dark mode) */
       --link: #58a6ff; /* bright cyan for contrast on dark */
       --link-hover: #8cc7ff;
       --link-visited: #9fc7ff;
     }
-    body{font-family:var(--base-font);line-height:1.5;color:var(--text);padding:2rem;background:var(--bg)}
+    body{font-family:var(--base-font);line-height:1.5;color:var(--text);padding:2rem;background:var(--bg) url('IMG_6566.jpg') center/cover no-repeat fixed}
     h1{font-family:var(--base-font)}
     h2,h3,h4,h5,h6{font-family:var(--header-font)}
-    .container{position:relative;max-width:1337px;margin:0 auto;background:var(--panel-bg);padding:2rem;border-radius:10px;box-shadow:0 6px 24px rgba(12,20,40,0.06);border:1px solid var(--panel-border)}
+    .container{position:relative;max-width:1337px;margin:0 auto;background:rgba(255,255,255,0.85);padding:2rem;border-radius:10px;box-shadow:0 6px 24px rgba(12,20,40,0.06);border:1px solid var(--panel-border);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
     header{display:flex;align-items:center;gap:1.5rem}
     .photo{width:18vw;max-width:140px;border-radius:10px}
     h1{margin:0;font-size:1.6rem}
@@ -29,7 +30,11 @@
     nav{margin-top:1rem}
     nav a{margin-right:1rem;color:var(--accent);text-decoration:none}
     section{margin-top:1.4rem}
-    .box{background:var(--panel-bg);border:1px solid var(--panel-border);padding:1rem;border-radius:8px}
+    .box{background:rgba(255,255,255,0.75);border:1px solid var(--panel-border);padding:1rem;border-radius:8px;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+
+    /* dark-mode overrides for translucent panels so background image remains visible */
+    [data-theme="dark"] .container{background:rgba(7,18,38,0.6)}
+    [data-theme="dark"] .box{background:rgba(7,18,38,0.55)}
     ul{padding-left:1.2rem}
     #blogs ul{overflow-x:auto}
     #blogs ul li{white-space:nowrap}
@@ -39,7 +44,10 @@
     a:hover, nav a:hover{color:var(--link-hover);text-decoration:underline}
     .hideextra{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:360px;display:inline-block;vertical-align:middle}
     table{width:100%;border-collapse:collapse;margin-top:.5rem}
-    th,td{padding:.4rem .6rem;border-bottom:1px solid #eee;text-align:left;font-size:.95rem}
+    th,td{padding:.4rem .6rem;border-bottom:1px solid rgba(0,0,0,0.06);text-align:left;font-size:.95rem}
+
+    /* table border color adjustments for dark theme */
+    [data-theme="dark"] th,[data-theme="dark"] td{border-bottom-color:rgba(255,255,255,0.06)}
     .contact{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.6rem}
     .pill{background:#f1f7ff;border:1px solid #dbeeff;padding:.25rem .5rem;border-radius:999px;color:var(--accent);font-weight:600}
     #dark-toggle{position:absolute;top:1rem;right:1rem;background:transparent;border:1px solid transparent;padding:.25rem .5rem;border-radius:8px;cursor:pointer;color:var(--accent);font-size:1rem;z-index:20}
@@ -262,7 +270,7 @@
       <div class="muted" style="margin-top:.6rem">
         "It has to start somewhere. It has to start sometime. What better place than here? What better time than now?"
         <br>
-        Guerrilla Radio, Rage Against The Machine
+        <a href="https://www.youtube.com/watch?v=n6cBRx2Ie6A">Guerrilla Radio, Rage Against The Machine.</a>
     </div>
     </footer>
 
