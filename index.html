@@ -1,335 +1,425 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Nitesh Surana | Cloud Threat Research</title>
-  <link href="https://fonts.googleapis.com/css?family=Titillium+Web:300,400,600,700&display=swap" rel="stylesheet">
-  <style>
-    :root{--accent:#0b69ff;--muted:#666;--base-font:'Titillium Web', ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;--header-font:Georgia, "Times New Roman", Times, serif;--bg:#f7f8fb;--panel-bg:#ffffff;--panel-border:#eef5ff;--text:#111;
-      /* link palette (light mode) */
-      --link: #0b69ff; /* primary link (blue) */
-      --link-hover: #084fc4; /* darker on hover */
-      --link-visited: #5a3dbb; /* visited (muted purple) */
-    }
-    /* dark theme overrides (toggled via data-theme="dark" on <html>) */
-    [data-theme="dark"]{--bg:#000000;--panel-bg:#071226;--panel-border:rgba(255,255,255,0.06);--text:#e6eef8;--muted:#9fb0c8;--accent:#58a6ff;
-      /* link palette (dark mode) */
-      --link: #58a6ff; /* bright cyan for contrast on dark */
-      --link-hover: #8cc7ff;
-      --link-visited: #9fc7ff;
-    }
-    body{font-family:var(--base-font);line-height:1.5;color:var(--text);padding:2rem;background:var(--bg) url('IMG_6566.jpg') center/cover no-repeat fixed}
-    h1{font-family:var(--base-font)}
-    h2,h3,h4,h5,h6{font-family:var(--header-font)}
-    .container{position:relative;max-width:1337px;margin:0 auto;background:rgba(255,255,255,0.85);padding:2rem;border-radius:10px;box-shadow:0 6px 24px rgba(12,20,40,0.06);border:1px solid var(--panel-border);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-    header{display:flex;align-items:center;gap:1.5rem}
-    .photo{width:18vw;max-width:140px;border-radius:10px}
-    h1{margin:0;font-size:1.6rem}
-    .muted{color:var(--muted)}
-    nav{margin-top:1rem}
-    nav a{margin-right:1rem;color:var(--accent);text-decoration:none}
-    section{margin-top:1.4rem}
-    .box{background:rgba(255,255,255,0.75);border:1px solid var(--panel-border);padding:1rem;border-radius:8px;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nitesh Surana — Cloud Threat Research</title>
+<meta name="description" content="Nitesh Surana — Sr. Cloud Threat Researcher. Top 100 MSRC Researchers 2023 & 2024.">
+<script>document.documentElement.dataset.theme=localStorage.getItem("ns-theme")||"light";</script>
+<style>
+  :root{
+    --bg:#ffffff; --text:#111111; --muted:#6b6b6b; --line:#111111;
+    --hair:#d9d9d9; --accent:#e2231a;
+    --sans:"Helvetica Neue",Helvetica,Arial,"Inter",sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  }
+  html[data-theme="dark"]{
+    --bg:#0f0f0f; --text:#f2f2f2; --muted:#9a9a9a; --line:#f2f2f2;
+    --hair:#2c2c2c; --accent:#ff4536;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:var(--sans);font-size:15px;line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none;border-bottom:1px solid var(--accent)}
+  a:hover{color:var(--accent);border-color:var(--accent)}
+  ::selection{background:var(--accent);color:#fff}
 
-    /* dark-mode overrides for translucent panels so background image remains visible */
-    [data-theme="dark"] .container{background:rgba(7,18,38,0.6)}
-    [data-theme="dark"] .box{background:rgba(7,18,38,0.55)}
-    ul{padding-left:1.2rem}
-    #blogs ul{overflow-x:auto}
-    #blogs ul li{white-space:nowrap}
-    /* link color rules using variables (accessible in both themes) */
-    a, nav a{color:var(--link)}
-    a:visited{color:var(--link-visited)}
-    a:hover, nav a:hover{color:var(--link-hover);text-decoration:underline}
-    .hideextra{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:360px;display:inline-block;vertical-align:middle}
-    table{width:100%;border-collapse:collapse;margin-top:.5rem}
-    th,td{padding:.4rem .6rem;border-bottom:1px solid rgba(0,0,0,0.06);text-align:left;font-size:.95rem}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 28px}
 
-    /* table border color adjustments for dark theme */
-    [data-theme="dark"] th,[data-theme="dark"] td{border-bottom-color:rgba(255,255,255,0.06)}
-    .contact{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.6rem}
-    .pill{background:#f1f7ff;border:1px solid #dbeeff;padding:.25rem .5rem;border-radius:999px;color:var(--accent);font-weight:600}
-    #dark-toggle{position:absolute;top:1rem;right:1rem;background:transparent;border:1px solid transparent;padding:.25rem .5rem;border-radius:8px;cursor:pointer;color:var(--accent);font-size:1rem;z-index:20}
-    #dark-toggle:focus{outline:2px solid rgba(11,105,255,0.18);outline-offset:2px}
-    .off{display:none}
-    .on{display:block}
-    #bio:target ~ #biocontent{display:block}
-    #biocontent{display:none}
-    /* submissions hidden by default; toggled via JS */
-    #submissions{display:none}
-    footer{margin-top:1.6rem;color:#666;font-size:.9rem}
-    @media (max-width:640px){header{flex-direction:column;align-items:flex-start}.photo{width:30vw}#dark-toggle{top:.6rem;right:.6rem}}
-  </style>
+  nav{
+    position:sticky;top:0;z-index:10;background:var(--bg);
+    border-bottom:1px solid var(--line);
+    font-family:var(--mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;
+  }
+  nav .wrap{display:flex;align-items:center;height:56px;gap:24px;overflow-x:auto;scrollbar-width:none}
+  nav .wrap::-webkit-scrollbar{display:none}
+  nav .brand{font-weight:700;margin-right:auto;white-space:nowrap}
+  nav .brand i{font-style:normal;color:var(--accent)}
+  nav a{border:none;color:var(--muted);white-space:nowrap}
+  nav a:hover{color:var(--accent)}
+  #theme-toggle{
+    font-family:var(--mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;
+    background:none;border:1px solid var(--line);color:var(--text);
+    padding:6px 12px;cursor:pointer;white-space:nowrap;
+  }
+  #theme-toggle:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+
+  header{padding:72px 0 48px;border-bottom:1px solid var(--line)}
+  .kicker{font-family:var(--mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.14em;color:var(--accent);margin-bottom:18px}
+
+  /* featured upcoming talk */
+  .upcoming{margin-top:36px;padding:26px 28px;border:2px solid var(--line);border-left:8px solid var(--accent)}
+  .up-label{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:var(--accent);margin-bottom:12px}
+  .up-title{font-size:clamp(20px,2.6vw,26px);font-weight:700;letter-spacing:0;text-transform:none;line-height:1.25;margin-bottom:6px}
+  .up-title a{color:var(--text);border:none}
+  .up-title a:hover{color:var(--accent)}
+  .up-meta{font-family:var(--mono);font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px}
+  h1{
+    font-size:clamp(44px,8vw,96px);font-weight:700;line-height:.95;
+    letter-spacing:-.03em;text-transform:uppercase;
+  }
+  .sub{
+    display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;
+    margin-top:26px;padding-top:14px;border-top:1px solid var(--hair);
+  }
+  .sub .role{font-size:clamp(16px,2vw,21px);font-weight:500}
+  .badges{font-family:var(--mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+  .links{margin-top:20px;display:flex;flex-wrap:wrap;gap:4px 22px;font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+
+  section{padding:52px 0;border-bottom:1px solid var(--line);scroll-margin-top:70px}
+  .sec-head{display:flex;align-items:baseline;gap:20px;margin-bottom:30px}
+  .sec-num{font-family:var(--mono);font-size:12px;color:var(--accent)}
+  h2{font-size:clamp(24px,3.4vw,36px);font-weight:700;letter-spacing:-.02em;text-transform:uppercase}
+  .prose{max-width:66ch;font-size:16.5px;line-height:1.65}
+  .prose p+p{margin-top:14px}
+  .about-grid{display:grid;grid-template-columns:1fr minmax(240px,340px);gap:clamp(24px,4vw,56px);align-items:start}
+  .portrait{border:1px solid var(--line);line-height:0}
+  .portrait img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;filter:grayscale(1)}
+  .portrait img:hover{filter:grayscale(0)}
+  @media(max-width:760px){.about-grid{grid-template-columns:1fr}}
+  .note{font-family:var(--mono);font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:20px}
+
+  table{width:100%;border-collapse:collapse;font-size:14.5px}
+  th{
+    text-align:left;font-family:var(--mono);font-size:11px;font-weight:400;
+    text-transform:uppercase;letter-spacing:.1em;color:var(--muted);
+    padding:0 18px 10px 0;border-bottom:1px solid var(--line);
+  }
+  td{padding:13px 18px 13px 0;border-bottom:1px solid var(--hair);vertical-align:top}
+  tr:hover td{background:color-mix(in srgb,var(--accent) 5%,transparent)}
+  td.date,td.year{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap}
+  td.conf{color:var(--muted);white-space:nowrap}
+  details.talk-abstract{padding:10px 0 8px}
+  details.talk-abstract summary{cursor:pointer;list-style:none;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+  details.talk-abstract summary::before{content:"▸ ";color:var(--accent)}
+  details.talk-abstract[open] summary::before{content:"▾ "}
+  details.talk-abstract summary:hover{color:var(--accent)}
+  details.talk-abstract .abs{padding-top:10px;max-width:76ch;font-size:14px;line-height:1.65;color:var(--muted);white-space:pre-line}
+  td.title a{border:none;font-weight:500}
+  td.title a:hover{color:var(--accent)}
+
+  .chip{font-family:var(--mono);font-size:12px;font-weight:700}
+  .chip.crit{color:var(--accent)} .chip.high{color:var(--text)} .chip.med,.chip.low{color:var(--muted)}
+  .tag0day{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#fff;background:var(--accent);padding:2px 6px;margin-right:8px}
+
+  ul.misc{list-style:none}
+  ul.misc li{padding:12px 0;border-bottom:1px solid var(--hair);display:flex;gap:20px}
+  ul.misc li:hover{background:color-mix(in srgb,var(--accent) 5%,transparent)}
+  ul.misc .date{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap;padding-top:2px}
+  ul.misc a{border:none;font-weight:500}
+  ul.misc a:hover{color:var(--accent)}
+
+  footer{padding:64px 0 80px}
+  blockquote{
+    max-width:60ch;font-size:clamp(20px,3vw,30px);font-weight:700;line-height:1.35;letter-spacing:-.01em;
+    border-left:6px solid var(--accent);padding-left:24px;
+  }
+  blockquote cite{display:block;margin-top:16px;font-style:normal;font-family:var(--mono);font-size:11.5px;font-weight:400;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+  .credit{margin-top:56px;font-family:var(--mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+</style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <img class="photo" src="https://avatars.githubusercontent.com/u/34381157?v=4" alt="Nitesh Surana">
-      <div>
-        <h1>Nitesh Surana</h1>
-        <div class="muted">Sr. Cloud Threat Researcher | Top 100 MSRC Researchers 2023, 2024</div>
-        <nav>
-          <a href="#about">About</a>
-          <a href="#blogs">Blogs</a>
-          <a href="#talks">Talks</a>
-          <a href="#zdi">ZDI Disclosures</a>
-          <a href="#misc">Misc</a>
-        </nav>
-        <button id="dark-toggle" aria-pressed="false" title="Toggle dark mode">Toggle</button>
-      </div>
-    </header>
+<script>
+const DATA = {
+  name: "Nitesh Surana",
+  role: "Sr. Cloud Threat Researcher",
+  avatar: "https://avatars.githubusercontent.com/u/34381157?v=4",
+  photo: "IMG_6566.jpg",
+  badges: ["Top 100 MSRC Researchers 2023", "Top 100 MSRC Researchers 2024"],
+  links: [
+    { label: "LinkedIn", url: "https://www.linkedin.com/in/ideaengine007/" },
+    { label: "X",        url: "https://x.com/_niteshsurana" },
+    { label: "Mastodon", url: "https://infosec.exchange/@niteshsurana" },
+    { label: "Bluesky",  url: "https://bsky.app/profile/niteshsurana.bsky.social" },
+    { label: "YouTube",  url: "https://www.youtube.com/@niteshsurana" },
+    { label: "Hacking Archives of India", url: "https://hackingarchivesofindia.com/hacker/nitesh_surana/" },
+  ],
+  about: [
+    "Nitesh Surana is a Senior Cloud Threat Researcher at TrendAI with over five years of experience in cybersecurity. He began his career as a SOC analyst in 2019 before transitioning into threat research, where he now focuses on cloud and cloud-native environments, developer environments, software supply chain attacks, vulnerabilities, threats, and security misconfigurations.",
+    "His findings affected Azure, Docker, Visual Studio and many other widely used products. He has been recognized as a Top 10 Microsoft Security Researcher in 2024 while working with the TrendAI Zero Day Initiative. His research on Azure and Microsoft services, as well as investigations into cloud threat actor credential leaks, has been presented at conferences including Black Hat USA and Asia, Blue Hat USA, FIRSTCON, HackInTheBox, HackInParis, Virus Bulletin, Nullcon, Vulncon and c0c0n.",
+    "Outside of keyboards, he enjoys metal music and spending time in the Himalayas."
+  ],
+  blogs: [
+    { date: "2026-04-01", title: "It’s By Design: The Use-After-Free of Azure Cloud", url: "https://www.trendmicro.com/vinfo/us/security/news/virtualization-and-cloud/its-by-design-the-use-after-free-of-azure-cloud" },
+    { date: "2026-03-12", title: "Cracking the Isolation: Novel Docker Desktop VM Escape Techniques Under WSL2", url: "https://www.trendmicro.com/vinfo/us/security/news/virtualization-and-cloud/cracking-the-isolation-novel-docker-desktop-vm-escape-techniques-under-wsl2" },
+    { date: "2025-10-08", title: "A Cascade of Insecure Architectures: Axis Plugin Design Flaw Exposes Select Autodesk Revit Users to Supply Chain Risk", url: "https://www.trendmicro.com/en_us/research/25/j/axis-plugin-flaw-autodesk-revit-supply-chain-risk.html" },
+    { date: "2025-04-15", title: "ZDI-23-1527 and ZDI-23-1528: The Potential Impact of Overly Permissive SAS Tokens on PC Manager Supply Chains", url: "https://www.trendmicro.com/en_us/research/25/d/zdi-23-1527-and-zdi-23-1528-the-potential-impact-of-overly-permi.html" },
+    { date: "2024-10-16", title: "Fake LockBit, Real Damage: Ransomware Samples Abuse Amazon S3 to Steal Data", url: "https://www.trendmicro.com/en_us/research/24/j/fake-lockbit-real-damage-ransomware-samples-abuse-aws-s3-to-stea.html" },
+    { date: "2024-07-25", title: "The Mirage of AI Programming: Hallucinations and Code Integrity", url: "https://www.trendmicro.com/vinfo/in/security/news/vulnerabilities-and-exploits/the-mirage-of-ai-programming-hallucinations-and-code-integrity" },
+    { date: "2024-07-11", title: "Leaky Labels: Bypassing Traefik Proxy Leveraging cAdvisor Metrics", url: "https://www.trendmicro.com/vinfo/us/security/news/virtualization-and-cloud/leaky-labels-bypassing-traefik-proxy-leveraging-cadvisor-metrics" },
+    { date: "2024-05-02", title: "Observability Exposed: Exploring Risks in Cloud-Native Metrics", url: "https://www.trendmicro.com/vinfo/in/security/news/virtualization-and-cloud/observability-exposed-exploring-risks-in-cloud-native-metrics" },
+    { date: "2024-04-22", title: "You Can't See Me: Achieving Stealthy Persistence in Azure Machine Learning", url: "https://www.trendmicro.com/vinfo/in/security/news/cybercrime-and-digital-threats/you-cant-see-me-achieving-stealthy-persistence-in-azure-machine-learning" },
+    { date: "2023-08-30", title: "Uncovering Silent Threats in Azure Machine Learning Service – Part 2", url: "https://www.trendmicro.com/vinfo/us/security/news/cybercrime-and-digital-threats/uncovering-silent-threats-in-azure-machine-learning-service-part-2" },
+    { date: "2023-08-17", title: "Uncovering Silent Threats in Azure Machine Learning Service – Part 1", url: "https://www.trendmicro.com/vinfo/us/security/news/cybercrime-and-digital-threats/uncovering-silent-threats-in-azure-machine-learning-service-part-I" },
+    { date: "2023-05-23", title: "Info Stealer Abusing Codespaces Puts Discord Users at Risk", url: "https://www.trendmicro.com/en_in/research/23/e/info-stealer-abusing-codespaces-puts-discord-users--data-at-risk.html" },
+    { date: "2023-05-19", title: "Rust-Based Info Stealers Abuse GitHub Codespaces", url: "https://www.trendmicro.com/en_in/research/23/e/rust-based-info-stealers-abuse-github-codespaces.html" },
+    { date: "2023-01-16", title: "Abusing a GitHub Codespaces Feature For Malware Delivery", url: "https://www.trendmicro.com/en_in/research/23/a/abusing-github-codespaces-for-malware-delivery.html" },
+    { date: "2022-10-26", title: "Threat Actors Target AWS EC2 Workloads to Steal Credentials", url: "https://www.trendmicro.com/en_us/research/22/j/threat-actors-target-aws-ec2-workloads-to-steal-credentials.html" },
+    { date: "2022-09-12", title: "Security Breaks: TeamTNT’s DockerHub Credentials Leak", url: "https://www.trendmicro.com/en_us/research/22/i/security-breaks-teamtnts-dockerhub-credentials-leak.html" },
+    { date: "2022-09-08", title: "How Malicious Actors Abuse Native Linux Tools in Attacks", url: "https://www.trendmicro.com/en_us/research/22/i/how-malicious-actors-abuse-native-linux-tools-in-their-attacks.html" },
+    { date: "2022-04-08", title: "CVE-2022-22965: Analyzing the Exploitation of Spring4Shell Vulnerability", url: "https://www.trendmicro.com/en_us/research/22/d/cve-2022-22965-analyzing-the-exploitation-of-spring4shell-vulnerability.html" },
+    { date: "2022-02-11", title: "Detecting PwnKit (CVE-2021-4034) Using Trend Micro Vision One and Cloud One", url: "https://www.trendmicro.com/en_us/research/22/b/detecting-pwnkit-cve20214034-using-trend-micro-vision-one-cloud-one.html" },
+    { date: "2022-01-27", title: "How to detect Apache Log4j vulnerabilities", url: "https://www.trendmicro.com/en_ca/devops/22/a/detect-log4j-vulnerabilities.html" },
+    { date: "2021-12-21", title: "How to detect Apache HTTP Server Exploitation", url: "https://www.trendmicro.com/en_us/devops/21/l/how-to-detect-apache-http-server-exploitation.html" },
+    { date: "2021-12-03", title: "Vulnerabilities Exploited for Monero Mining Malware Delivered via GitHub, Netlify", url: "https://www.trendmicro.com/en_us/research/21/l/vulnerabilities-exploited-for-monero-mining-malware-delivered-via-gitHub-netlify.html" },
+    { date: "2021-12-01", title: "Analyzing How TeamTNT Used Compromised Docker Hub Accounts", url: "https://www.trendmicro.com/en_us/research/21/l/more-tools-in-the-arsenal-how-teamtnt-used-compromised-docker-hu.html" },
+    { date: "2021-11-09", title: "Compromised Docker Hub Accounts Abused for Cryptomining Linked to TeamTNT", url: "https://www.trendmicro.com/en_us/research/21/k/compromised-docker-hub-accounts-abused-for-cryptomining-linked-to.html" },
+    { date: "2021-08-12", title: "Detecting PrintNightmare Exploitation Attempts using Cloud One and Vision One", url: "https://www.trendmicro.com/en_us/research/21/h/detecting-printnightmare-exploit-attempts-with-trend-micro-vision-one-and-cloud-one.html" },
+    { date: "2021-07-22", title: "Safeguarding against cryptomining attacks", url: "https://www.trendmicro.com/en_us/research/21/g/safeguarding-against-cryptomining-attacks.html" },
+    { date: "2021-04-21", title: "Could the Microsoft Exchange breach be stopped?", url: "https://www.trendmicro.com/en_us/research/21/d/could-the-microsoft-exchange-breach-be-stopped.html" },
+  ],
+  talks: [
+    { year: "2026", conf: "Nullcon Berlin", upcoming: true, date: "Nov 5–6, 2026", title: "Hostile Inference: A Tale of Exploiting Docker Model Runner for Container Escapes", url: "https://nullcon.net/talk/hostile-inference-a-tale-of-exploiting-docker-model-runner-for-container-escapes/", desc:
+`With powerful AI models being released, local LLM inference is seeing significant adoption in developer workflows. One of the various providers is Docker, whose Model Runner integrates inference engines like llama.cpp into Docker Desktop – reachable from every container on the system once enabled.
 
-    <section id="about">
-      <div class="box">
-        <strong>About</strong>
-        <p class="muted">Nitesh Surana is a Senior Cloud Threat Researcher at TrendAI with over five years of experience in cybersecurity. He began his career as a SOC analyst in 2019 before transitioning into threat research, where he now focuses on cloud and cloud-native environments, developer environments, software supply chain attacks, vulnerabilities, threats, and security misconfigurations.
-        <br><br>
-        His findings affected Azure, Docker, Visual Studio and many other widely used products. He has been recognized as a Top 10 Microsoft Security Researchers in 2024 while working with the TrendAI Zero Day Initiative. His research on Azure and Microsoft services, as well as investigations into cloud threat actor credential leaks, has been presented at conferences including Black Hat USA and Asia, Blue Hat USA, FIRSTCON, HackInTheBox, HackInParis, Virus Bulletin, Nullcon, Vulncon and c0c0n.
-        <br><br>
-        Outside of keyboards, he enjoys metal music and spending time in the Himalayas.</p>
+The talk centers on CVE-2026-28400 / ZDI-26-150, a vulnerability we discovered in DMR. A container running with default capabilities can reach unauthenticated DMR APIs and inject arbitrary arguments into the inference process, yielding a host filesystem write primitive – completely bypassing the Docker Desktop VM. On macOS, this primitive allows overwriting the Docker VM disk – destroying every container, image, and build on the host with no-user interaction. On Windows, we combine insufficient path restrictions with a UNC-path NTLM relay & error logs to leak the current username and achieve arbitrary writes anywhere that user can write.
 
-        <div style="margin-top:.6rem">
-          <strong>Links</strong>
-          <div style="margin-top:.25rem">
-            <a target="_blank" rel="noopener" href="https://hackingarchivesofindia.com/hacker/nitesh_surana/">Hacking Archives of India</a> ·
-            <a target="_blank" rel="noopener" href="https://www.linkedin.com/in/ideaengine007/">LinkedIn</a> ·
-            <a target="_blank" rel="noopener" href="https://x.com/_niteshsurana">X</a> ·
-            <a target="_blank" rel="noopener" href="https://infosec.exchange/@niteshsurana">Mastodon</a> ·
-            <a target="_blank" rel="noopener" href="https://bsky.app/profile/niteshsurana.bsky.social">Bluesky</a> ·
-            <a target="_blank" rel="noopener" href="https://www.youtube.com/@niteshsurana">YouTube</a>
-          </div>
-        </div>
-      </div>
-    </section>
+We then escalate this constrained file write into arbitrary host code execution by chaining GGUF model metadata – which llama.cpp logs verbatim to the attacker-controlled path – with the Docker Extensions SDK exec surface, previously abused at Pwn2Own 2024 (ZDI-24-1019). Crafted model metadata becomes a JavaScript payload that, when the victim opens an installed Extension's UI, invokes the SDK to mount the host filesystem and run host binaries – all by design.
 
-    <section id="blogs">
-      <strong>Blogs</strong>
-      <div class="box">
-        <table>
-          <thead>
-            <tr><th>Date</th><th>Blog</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>2026-04-01</td><td><a target="_blank" rel="noopener" href="https://www.trendmicro.com/vinfo/us/security/news/virtualization-and-cloud/its-by-design-the-use-after-free-of-azure-cloud">It’s By Design: The Use-After-Free of Azure Cloud</a></td></tr>
-            <tr><td>2026-03-12</td><td><a target="_blank" rel="noopener" href="https://www.trendmicro.com/vinfo/us/security/news/virtualization-and-cloud/cracking-the-isolation-novel-docker-desktop-vm-escape-techniques-under-wsl2">Cracking the Isolation Novel Docker Desktop VM Escape Techniques Under WSL2</a></td></tr>
-            <tr><td>2025-10-08</td><td><a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_us/research/25/j/axis-plugin-flaw-autodesk-revit-supply-chain-risk.html">A Cascade of Insecure Architectures: Axis Plugin Design Flaw Expose Select Autodesk Revit Users to Supply Chain Risk</a></td></tr>
-            <tr><td>2025-04-15</td><td><a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_us/research/25/d/zdi-23-1527-and-zdi-23-1528-the-potential-impact-of-overly-permi.html">ZDI-23-1527 and ZDI-23-1528: The Potential Impact of Overly Permissive SAS Tokens on PC Manager Supply Chains</a></td></tr>
-            <tr><td>2024-10-16</td><td><a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_us/research/24/j/fake-lockbit-real-damage-ransomware-samples-abuse-aws-s3-to-stea.html">Fake LockBit, Real Damage: Ransomware Samples Abuse Amazon S3 to Steal Data</a></td></tr>
-            <tr><td>2024-07-25</td><td><a target="_blank" rel="noopener" href="https://www.trendmicro.com/vinfo/in/security/news/vulnerabilities-and-exploits/the-mirage-of-ai-programming-hallucinations-and-code-integrity">The Mirage of AI Programming: Hallucinations and Code Integrity</a></td></tr>
-            <tr><td>2024-07-11</td><td><a target="_blank" rel="noopener" href="https://www.trendmicro.com/vinfo/us/security/news/virtualization-and-cloud/leaky-labels-bypassing-traefik-proxy-leveraging-cadvisor-metrics">Leaky Labels: Bypassing Traefik Proxy Leveraging cAdvisor Metrics</a></td></tr>
-            <tr><td>2024-05-02</td><td><a target="_blank" rel="noopener" href="https://www.trendmicro.com/vinfo/in/security/news/virtualization-and-cloud/observability-exposed-exploring-risks-in-cloud-native-metrics">Observability Exposed: Exploring Risks in Cloud-Native Metrics</a></td></tr>
-            <tr><td>2024-04-22</td><td><a target="_blank" rel="noopener" href="https://www.trendmicro.com/vinfo/in/security/news/cybercrime-and-digital-threats/you-cant-see-me-achieving-stealthy-persistence-in-azure-machine-learning">You Can't See Me: Achieving Stealthy Persistence in Azure Machine Learning</a></td></tr>
-            <tr><td>2023-08-30</td><td><a target="_blank" rel="noopener" href="https://www.trendmicro.com/vinfo/us/security/news/cybercrime-and-digital-threats/uncovering-silent-threats-in-azure-machine-learning-service-part-2">Uncovering Silent Threats in Azure Machine Learning Service - Part 2</a></td></tr>
-            <tr><td>2023-08-17</td><td><a target="_blank" rel="noopener" href="https://www.trendmicro.com/vinfo/us/security/news/cybercrime-and-digital-threats/uncovering-silent-threats-in-azure-machine-learning-service-part-I">Uncovering Silent Threats in Azure Machine Learning Service - Part 1</a></td></tr>
-            <tr><td>2023-05-23</td><td><a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_in/research/23/e/info-stealer-abusing-codespaces-puts-discord-users--data-at-risk.html">Info Stealer Abusing Codespaces Puts Discord Users at Risk</a></td></tr>
-            <tr><td>2023-05-19</td><td><a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_in/research/23/e/rust-based-info-stealers-abuse-github-codespaces.html">Rust-Based Info Stealers Abuse GitHub Codespaces</a></td></tr>
-            <tr><td>2023-01-16</td><td><a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_in/research/23/a/abusing-github-codespaces-for-malware-delivery.html">Abusing a GitHub Codespaces Feature For Malware Delivery</a></td></tr>
-            <tr><td>2022-10-26</td><td><a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_us/research/22/j/threat-actors-target-aws-ec2-workloads-to-steal-credentials.html">Threat Actors Target AWS EC2 Workloads to Steal Credentials</a></td></tr>
-            <tr><td>2022-09-12</td><td><a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_us/research/22/i/security-breaks-teamtnts-dockerhub-credentials-leak.html">Security Breaks: TeamTNT’s DockerHub Credentials Leak</a></td></tr>
-            <tr><td>2022-09-08</td><td><a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_us/research/22/i/how-malicious-actors-abuse-native-linux-tools-in-their-attacks.html">How Malicious Actors Abuse Native Linux Tools in Attacks</a></td></tr>
-            <tr><td>2022-04-08</td><td><a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_us/research/22/d/cve-2022-22965-analyzing-the-exploitation-of-spring4shell-vulner.html">CVE-2022-22965: Analyzing the Exploitation of Spring4Shell Vulnerability</a></td></tr>
-            <tr><td>2022-02-11</td><td><a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_us/research/22/b/detecting-pwnkit-cve20214034-using-trend-micro-vision-one-cloud-one.html">Detecting PwnKit (CVE-2021-4034) Using Trend Micro Vision One and Cloud One</a></td></tr>
-            <tr><td>2022-01-27</td><td><a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_ca/devops/22/a/detect-log4j-vulnerabilities.html">How to detect Apache Log4j vulnerabilities</a></td></tr>
-            <tr><td>2021-12-21</td><td><a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_us/devops/21/l/how-to-detect-apache-http-server-exploitation.html">How to detect Apache HTTP Server Exploitation</a></td></tr>
-            <tr><td>2021-12-03</td><td><a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_us/research/21/l/vulnerabilities-exploited-for-monero-mining-malware-delivered-via-gitHub-netlify.html">Vulnerabilities Exploited for Monero Mining Malware Delivered via GitHub, Netlify</a></td></tr>
-            <tr><td>2021-12-01</td><td><a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_us/research/21/l/more-tools-in-the-arsenal-how-teamtnt-used-compromised-docker-hu.html">Analyzing How TeamTNT Used Compromised Docker Hub Accounts</a></td></tr>
-            <tr><td>2021-11-09</td><td><a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_us/research/21/k/compromised-docker-hub-accounts-abused-for-cryptomining-linked-t.html">Compromised Docker Hub Accounts Abused for Cryptomining Linked to TeamTNT</a></td></tr>
-            <tr><td>2021-08-12</td><td><a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_us/research/21/h/detecting-printnightmare-exploit-attempts-with-trend-micro-vision-one-and-cloud-one.html">Detecting PrintNightmare Exploitation Attempts using Cloud One and Vision One</a></td></tr>
-            <tr><td>2021-07-22</td><td><a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_us/research/21/g/safeguarding-against-cryptomining-attacks.html">Safeguarding against cryptomining attacks</a></td></tr>
-            <tr><td>2021-04-21</td><td><a target="_blank" rel="noopener" href="https://www.trendmicro.com/en_us/research/21/d/could-the-microsoft-exchange-breach-be-stopped.html">Could the Microsoft Exchange breach be stopped?</a></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
+We close by examining the layered defenses that failed – macOS Seatbelt profiles built on a denylist base, Windows Job Objects with no filesystem path restriction – and the architectural assumptions behind each. Attendees leave with a concrete model for auditing local-AI stacks before they become the next intrusion vector.` },
+    { year: "2025", conf: "fwd:cloudsec EU",      title: "The Cloud is a Spider Web: But with Broken Threads", url: "https://youtu.be/-hA0B8nvY5I" },
+    { year: "2024", conf: "BSides Ahmedabad",     title: "Tokens & Takeovers: Cloud-Powered Supply Chain Attacks", url: "https://youtu.be/AsCBwl0CaRY" },
+    { year: "2024", conf: "Virus Bulletin, Ireland", title: "From Code to Crime: Exploring Threats in GitHub Codespaces — Jaromir Horejsi & Nitesh Surana", url: "https://youtu.be/uRXjGXIMFps" },
+    { year: "2024", conf: "Microsoft BlueHat, USA", title: "Tokens & Takeovers: Cloud-Powered Supply Chain Attacks", url: "https://youtu.be/diJl15Uwv8I" },
+    { year: "2024", conf: "Black Hat Asia, Singapore", title: "Breaking Managed Identity Barriers In Azure Services", url: "https://youtu.be/SGp91luDA3k" },
+    { year: "2024", conf: "FIRSTCON Japan",       title: "From Code to Crime: Exploring Threats in GitHub Codespaces", url: "https://youtu.be/JZ0hJqXtPhw" },
+    { year: "2023", conf: "BSides Ahmedabad",     title: "Uncovering Azure's Silent Threats: A Journey into Cloud Vulnerabilities", url: "https://www.youtube.com/watch?v=9c6eiKguBUg" },
+    { year: "2023", conf: "c0c0n XVI, Kochi",     title: "Uncovering Azure's Silent Threats: A Story of Cloud Vulnerabilities", url: "https://www.youtube.com/watch?v=jJ62Dhtr4PI" },
+    { year: "2023", conf: "Nullcon, Goa",         title: "Uncovering Azure's Silent Threats: A Journey Into Cloud Vulnerabilities", url: "https://youtu.be/tv8tei97Sv8" },
+    { year: "2023", conf: "HackInTheBox, Phuket", title: "Breaking ML Services: Finding 0-days In Azure Machine Learning", url: "https://youtu.be/-K08hpzevYY" },
+    { year: "2023", conf: "Black Hat USA, Virtual", title: "Uncovering Azure's Silent Threats: A Journey Into Cloud Vulnerabilities", url: "https://youtu.be/cCLL5JrDt-M" },
+    { year: "2023", conf: "NDC, Oslo",            title: "Abusing GitHub for fun & profit: Actions and Codespaces Security", url: "https://youtu.be/llqLHqCseWg" },
+  ],
+  zdiNote: "Vulnerabilities identified and reported to vendors in the latest version of their affected product(s).",
+  zdi: [
+    { id: "ZDI-26-327",  cvss: 6.5, name: "[CVE-2026-8936] Docker Desktop grpcfuse Kernel Module Uncontrolled Recursion Denial-of-Service Vulnerability" },
+    { id: "ZDI-26-299",  cvss: 8.8, name: "[CVE-2026-6406] Docker Desktop Enhanced Container Isolation Exposed Dangerous Function Local Privilege Escalation Vulnerability" },
+    { id: "ZDI-26-261",  cvss: 7.5, zero: true, name: "Docker Desktop credentialHelper Directory Traversal Privilege Escalation Vulnerability" },
+    { id: "ZDI-26-260",  cvss: 7.5, zero: true, name: "Docker Desktop System Editor Uncontrolled Search Path Element Privilege Escalation Vulnerability" },
+    { id: "ZDI-26-259",  cvss: 7.8, zero: true, name: "Docker Desktop cli-plugins Incorrect Permission Assignment Local Privilege Escalation Vulnerability" },
+    { id: "ZDI-26-258",  cvss: 8.2, zero: true, name: "Docker Desktop extension-manager Exposed Dangerous Function Local Privilege Escalation Vulnerability" },
+    { id: "ZDI-26-152",  cvss: 7.8, name: "[CVE-2025-15558] Docker Desktop Docker Plugins Uncontrolled Search Path Element Local Privilege Escalation Vulnerability" },
+    { id: "ZDI-26-150",  cvss: 7.3, name: "[CVE-2026-28400] Docker Desktop for Mac Docker Model Runner Exposed Dangerous Function Denial-of-Service Vulnerability" },
+    { id: "ZDI-26-068",  cvss: 6.7, name: "[CVE-2025-14740] Docker Desktop for Windows Incorrect Permission Assignment Privilege Escalation Vulnerability" },
+    { id: "ZDI-26-067",  cvss: 6.7, name: "[CVE-2025-14740] Docker Desktop for Windows Incorrect Permission Assignment Privilege Escalation Vulnerability" },
+    { id: "ZDI-25-1057", cvss: 7.8, zero: true, name: "Microsoft Visual Studio VsDevCmd Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-25-858",  cvss: 8.8, name: "Axis Communications Autodesk Plugin AzureBlobRestAPI axiscontentfiles Remote Code Execution Vulnerability" },
+    { id: "ZDI-25-844",  cvss: 4.7, name: "[CVE-2025-53788] Microsoft Windows Subsystem for Linux WslCoreVm::Initialize Incorrect Privilege Management Information Disclosure Vulnerability" },
+    { id: "ZDI-25-422",  cvss: 3.7, name: "Microsoft Azure Machine Learning Environments Denial-of-Service Vulnerability" },
+    { id: "ZDI-25-421",  cvss: 5.3, name: "Microsoft Azure App Services Information Disclosure Vulnerability" },
+    { id: "ZDI-25-359",  cvss: 7.8, name: "[CVE-2025-47959] Microsoft Visual Studio initializeCommand Insufficient UI Warning Remote Code Execution Vulnerability" },
+    { id: "ZDI-25-206",  cvss: 9.8, name: "Amazon AWS CloudFormation Templates Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-25-205",  cvss: 9.8, name: "Amazon AWS CloudFormation Templates Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-1329", cvss: 8.8, name: "Axis Communications Autodesk Plugin AxisAddin axisapphelpfiles Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-1328", cvss: 8.8, name: "Axis Communications Autodesk Plugin AzureBlobRestAPI axiscontentfiles Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-1181", cvss: 7.6, name: "Axis Communications Autodesk Plugin Exposure of Sensitive Information Authentication Bypass Vulnerability" },
+    { id: "ZDI-24-1177", cvss: 9.8, name: "Amazon AWS CloudFormation Templates Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-1176", cvss: 9.8, name: "Amazon AWS aws-glue-with-s2s-vpn Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-1097", cvss: 9.9, zero: true, name: "Microsoft GitHub Dev-Containers Improper Privilege Management Privilege Escalation Vulnerability" },
+    { id: "ZDI-24-1075", cvss: 9.8, name: "Microsoft PowerShell Reference for Office Products officedocs-cdn Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-1074", cvss: 9.8, name: "Microsoft PowerShell Gallery psg-prod-centralus Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-1073", cvss: 9.8, name: "Microsoft Azure uAMQP azure-iot-sdks-ci Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-1072", cvss: 9.8, name: "Microsoft CameraTraps cameratracrsppftkje Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-1071", cvss: 9.8, name: "Microsoft Azure GPT ALE palantirdemoacr Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-1070", cvss: 9.8, name: "Microsoft Partner Resources openhacks Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-1069", cvss: 9.8, name: "Microsoft Technical Case Studies athena-dashboard Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-1068", cvss: 5.3, name: "Microsoft Azure ML.NET Samples mlnetfilestorage Uncontrolled Search Path Element Vulnerability" },
+    { id: "ZDI-24-1067", cvss: 9.4, name: "Microsoft Azure CollectSFData docs-analytics-eus Uncontrolled Search Path Element Impersonation Vulnerability" },
+    { id: "ZDI-24-1066", cvss: 9.8, name: "Microsoft Azure DataStoriesSamples machinelearningdatasets Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-1065", cvss: 9.8, name: "Microsoft Azure Availability Monitor for Kafka esnewdeveastdockerregistry Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-1064", cvss: 9.8, name: "Microsoft AirSim airsimci Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-1063", cvss: 9.8, name: "Microsoft Reactor Workshops reactorworkshops Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-1062", cvss: 9.8, name: "Microsoft Fluid Framework prague Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-1061", cvss: 9.8, name: "Microsoft What The Hack docsmsftpdfs Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-1060", cvss: 9.8, name: "Microsoft Azure Aztack aztack1528763526 Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-1059", cvss: 9.8, name: "Microsoft Azure Linux Automation konkaciwestus1 Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-1058", cvss: 9.8, name: "Microsoft Azure NodeJS LogPoint logpointsassets Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-23-1588", cvss: 8.8, name: "Microsoft Azure US Accelarators Synapse SAS Token Incorrect Permission Assignment Authentication Bypass Vulnerability" },
+    { id: "ZDI-23-1528", cvss: 10.0, name: "Microsoft PC Manager SAS Token Incorrect Permission Assignment Authentication Bypass Vulnerability" },
+    { id: "ZDI-23-1527", cvss: 10.0, name: "Microsoft PC Manager SAS Token Incorrect Permission Assignment Authentication Bypass Vulnerability" },
+    { id: "ZDI-23-1056", cvss: 4.4, zero: true, name: "Microsoft Azure Machine Learning Compute Instance certificate Exposure of Resource to Wrong Sphere Information Disclosure Vulnerability" },
+    { id: "ZDI-23-1044", cvss: 9.9, zero: true, name: "Microsoft GitHub Dev-Containers Improper Privilege Management Privilege Escalation Vulnerability" },
+    { id: "ZDI-24-998",  cvss: 8.2, name: "KernelCI SAS Token Incorrect Permission Assignment Authentication Bypass Vulnerability" },
+    { id: "ZDI-24-993",  cvss: 7.5, name: "Microsoft Azure myapiendpoint.developer.azure-api Improper Access Control Information Disclosure Vulnerability" },
+    { id: "ZDI-24-992",  cvss: 9.8, name: "Microsoft Azure VSTS CLI vstscli Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-991",  cvss: 9.8, name: "Microsoft Azure Arc Jumpstart Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-989",  cvss: 9.8, name: "Microsoft Azure Container Network Management sbidprod Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-988",  cvss: 9.8, name: "Microsoft Azure MQTT azure-iot-sdks-ci Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-987",  cvss: 9.8, name: "Microsoft Object Detection Solution Accelerator csaddevamlacr Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-986",  cvss: 9.8, name: "Microsoft Azure IoT Edge Dev Tool iotedgetoolscontainerregistry Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-985",  cvss: 9.8, name: "Microsoft Azure Service Fabric servicefabricsdkstorage Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-983",  cvss: 9.8, name: "Microsoft Azure Go Labs microsoftgoproxy Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-982",  cvss: 5.3, name: "Microsoft Azure SQL Workshop azuremlsampleexperiments Uncontrolled Search Path Element Vulnerability" },
+    { id: "ZDI-24-981",  cvss: 9.8, name: "Microsoft Azure Machine Learning Notebooks azuremlpackages Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-980",  cvss: 9.8, name: "Microsoft Azure Machine Learning Forecasting Toolkit azuremlftkrelease Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-581",  cvss: 10.0, name: "Microsoft Azure SQL Managed Instance Documentation SAS Token Incorrect Permission Assignment Authentication Bypass Vulnerability" },
+    { id: "ZDI-24-580",  cvss: 9.8, name: "Microsoft Artifact Registry Container Images Empty Password Authentication Bypass Vulnerability" },
+    { id: "ZDI-24-400",  cvss: 9.8, name: "Microsoft uAMQP for Python azure-iot-sdks-ci Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-396",  cvss: 9.8, name: "Microsoft Azure ODSP nikisos Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-24-369",  cvss: 5.3, name: "Google cAdvisor REST API Improper Access Control Information Disclosure Vulnerability" },
+    { id: "ZDI-24-208",  cvss: 9.8, name: "Microsoft Azure MCR VSTS CLI vstscli Uncontrolled Search Path Element Remote Code Execution Vulnerability" },
+    { id: "ZDI-23-880",  cvss: 5.5, name: "[CVE-2023-28312] Microsoft Azure Machine Learning Service DSIMountAgent Missing Authentication Information Disclosure Vulnerability" },
+    { id: "ZDI-23-380",  cvss: 6.5, name: "[CVE-2023-28312] Microsoft Azure Machine Learning Service DSIMountAgent Missing Authentication Information Disclosure Vulnerability" },
+    { id: "ZDI-23-161",  cvss: 6.5, name: "[CVE-2023-23382] Microsoft Azure Machine Learning Service Cleartext Storage of Credentials Information Disclosure Vulnerability" },
+    { id: "ZDI-23-097",  cvss: 6.8, name: "Microsoft Azure Machine Learning Service JWT Cleartext Storage of Credentials Information Disclosure Vulnerability" },
+    { id: "ZDI-23-096",  cvss: 6.5, name: "Microsoft Azure Machine Learning Service Cleartext Storage of Credentials Information Disclosure Vulnerability" },
+    { id: "ZDI-23-095",  cvss: 6.5, name: "Microsoft Azure Machine Learning Service Cleartext Storage of Credentials Information Disclosure Vulnerability" },
+  ],
+  misc: [
+    { date: "2024-10-22", title: "Announcing the BlueHat 2024 Sessions | MSRC Blog", url: "https://msrc.microsoft.com/blog/2024/10/announcing-the-bluehat-2024-sessions/" },
+    { date: "2024-08-06", title: "MSRC: Congratulations to each of our MSRC 2024 Most Valuable Researchers!", url: "https://msrc.microsoft.com/blog/2024/08/congratulations-to-the-msrc-2024-most-valuable-security-researchers/#congratulations-to-each-of-our-msrc-2024-most-valuable-researchers" },
+    { date: "2024-07-24", title: "MSRC: Congratulations to the Top MSRC 2024 Q2 Security Researchers!", url: "https://msrc.microsoft.com/blog/2024/07/congratulations-to-the-top-msrc-2024-q2-security-researchers/" },
+    { date: "2024-04-17", title: "MSRC: Congratulations to the Top MSRC 2024 Q1 Security Researchers!", url: "https://msrc.microsoft.com/blog/2024/04/congratulations-to-the-top-msrc-2024-q1-security-researchers/" },
+    { date: "2023-08-18", title: "InformationWeek: 4 of the Biggest Vulnerabilities Talked About During Black Hat 2023", url: "https://www.informationweek.com/cyber-resilience/4-of-the-biggest-vulnerabilities-talked-about-during-black-hat-2023" },
+    { date: "2023-08-10", title: "TechTarget: Trend Micro discloses 'silent threat' flaws in Azure ML", url: "https://www.techtarget.com/searchsecurity/news/366547713/Trend-Micro-discloses-silent-threat-flaws-in-Azure-ML" },
+    { date: "2023-02-14", title: "ZDI: The February 2023 Security Update Overview", url: "https://www.zerodayinitiative.com/blog/2023/2/14/the-february-2023-security-update-overview" },
+    { date: "2023-01-17", title: "CSOOnline: How attackers might use GitHub Codespaces to hide malware delivery", url: "https://www.csoonline.com/article/574339/how-attackers-might-use-github-codespaces-to-hide-malware-delivery.html" },
+    { date: "2022-09-14", title: "Dark Reading: TeamTNT Hits Docker Containers via 150K Malicious Cloud Image Pulls", url: "https://www.darkreading.com/cloud-security/teamtnt-docker-containers-malicious-cloud-images" },
+    { date: "2020-02-05", title: "Bug hunter finds cryptocurrency-mining botnet on DOD network", url: "https://www.zdnet.com/article/bug-hunter-finds-cryptocurrency-mining-botnet-on-dod-network/" },
+    { date: "2020-01-31", title: "DC3 VDP on X: Jenkins RCE mention", url: "https://twitter.com/DC3VDP/status/1223260093355044865" },
+    { date: "2020-11-20", title: "First Router Bug (or a feature?)", url: "https://niteshsurana.medium.com/cve-2020-25988-a-upnp-abuse-424f0db73129" },
+    { date: "2020-09-20", title: "Winja CTF x Nullcon x c0c0n 2020", url: "https://niteshsurana.medium.com/winja-ctf-x-nullcon-x-c0c0n-2020-9609498268c" },
+    { date: "2020-06-24", title: "Popping LFI on Android Apps with over 21M+ Downloads", url: "https://niteshsurana.medium.com/world-music-day-2020-and-a-simple-lfi-1f93c2f3145d" },
+    { date: "2020-01-18", title: "Null & OWASP Bangalore: A Primer on Metasploit", url: "https://github.com/ideaengine007/Presentations/blob/master/Metasploit_Primer.pdf" },
+    { date: "2019-12-21", title: "Null & OWASP Bangalore: A Primer on OSINT", url: "https://github.com/ideaengine007/Presentations/blob/master/OSINT_Primer_1.pdf" },
+  ],
+  quote: {
+    text: "It has to start somewhere. It has to start sometime. What better place than here? What better time than now?",
+    cite: "Guerrilla Radio — Rage Against The Machine",
+    url: "https://www.youtube.com/watch?v=n6cBRx2Ie6A"
+  },
+  inspiredBy: { label: "James Kettle", url: "https://jameskettle.com/" }
+};
+</script>
 
-    <section id="talks">
-      <strong>Talks</strong>
-      <div class="box">
-        <table>
-          <thead>
-            <tr><th>Year</th><th>Conference</th><th>Talk</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>2025</td><td>fwd:cloudsec EU</td><td><a target="_blank" rel="noopener" href="https://youtu.be/-hA0B8nvY5I">The Cloud is a Spider Web: But with Broken Threads</a></td></tr>
-            <tr><td>2024</td><td>BSides Ahmedabad</td><td><a target="_blank" rel="noopener" href="https://youtu.be/AsCBwl0CaRY">Tokens &amp; Takeovers: Cloud-Powered Supply Chain Attacks</a></td></tr>
-            <tr><td>2024</td><td>Virus Bulletin, Ireland</td><td><a target="_blank" rel="noopener" href="https://youtu.be/uRXjGXIMFps">From code to crime: exploring threats in GitHub Codespaces — Jaromir Horejsi &amp; Nitesh Surana</a></td></tr>
-            <tr><td>2024</td><td>Microsoft BlueHat, USA</td><td><a target="_blank" rel="noopener" href="https://youtu.be/diJl15Uwv8I">Tokens &amp; Takeovers: Cloud-Powered Supply Chain Attacks</a></td></tr>
-            <tr><td>2024</td><td>Black Hat Asia, Singapore</td><td><a target="_blank" rel="noopener" href="https://youtu.be/SGp91luDA3k">Breaking Managed Identity Barriers In Azure Services</a></td></tr>
-            <tr><td>2024</td><td>FIRSTCON Japan</td><td><a target="_blank" rel="noopener" href="https://youtu.be/JZ0hJqXtPhw">From Code to Crime: Exploring Threats in GitHub Codespaces</a></td></tr>
-            <tr><td>2023</td><td>BSides Ahmedabad</td><td><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=9c6eiKguBUg">Uncovering Azure's Silent Threats: A Journey into Cloud Vulnerabilities</a></td></tr>
-            <tr><td>2023</td><td>c0c0n XVI, Kochi</td><td><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=jJ62Dhtr4PI">Uncovering Azure's Silent Threats: A Story of Cloud Vulnerabilities</a></td></tr>
-            <tr><td>2023</td><td>Nullcon, Goa</td><td><a target="_blank" rel="noopener" href="https://youtu.be/tv8tei97Sv8">Uncovering Azure's Silent Threats: A Journey Into Cloud Vulnerabilities</a></td></tr>
-            <tr><td>2023</td><td>HackInTheBox, Phuket</td><td><a target="_blank" rel="noopener" href="https://youtu.be/-K08hpzevYY">Breaking ML Services: Finding 0-days In Azure Machine Learning</a></td></tr>
-            <tr><td>2023</td><td>Black Hat USA, Virtual</td><td><a target="_blank" rel="noopener" href="https://youtu.be/cCLL5JrDt-M">Uncovering Azure's Silent Threats: A Journey Into Cloud Vulnerabilities</a></td></tr>
-            <tr><td>2023</td><td>NDC, Oslo</td><td><a target="_blank" rel="noopener" href="https://youtu.be/llqLHqCseWg">Abusing GitHub for fun &amp; profit: Actions and Codespaces Security</a></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
+<nav><div class="wrap">
+  <span class="brand"><i>●</i> Nitesh Surana</span>
+  <a href="#about">About</a><a href="#blogs">Blogs</a><a href="#talks">Talks</a><a href="#zdi">Disclosures</a><a href="#misc">Misc</a>
+  <button id="theme-toggle" aria-label="Toggle color theme"></button>
+</div></nav>
 
-    <section id="zdi">
-      <strong>ZDI Disclosures</strong>
-      <p class="muted">Vulnerabilities identified and reported to vendors in the latest version of their affected product(s).</p>
-      <button id="toggle-submissions" class="pill" aria-expanded="false">View</button>
-      <div id="submissions">
-        <table>
-          <thead>
-            <tr><th>Advisory</th><th>Severity</th><th>Vulnerability</th></tr>
-          </thead>
-          <tbody>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-26-327">ZDI-26-327</a></td><td>6.5</td><td>[CVE-2026-8936] Docker Desktop grpcfuse Kernel Module Uncontrolled Recursion Denial-of-Service Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-26-299">ZDI-26-299</a></td><td>8.8</td><td>[CVE-2026-6406] Docker Desktop Enhanced Container Isolation Exposed Dangerous Function Local Privilege Escalation Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-26-261">ZDI-26-261</a></td><td>7.5</td><td>(0Day) Docker Desktop credentialHelper Directory Traversal Privilege Escalation Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-26-260">ZDI-26-260</a></td><td>7.5</td><td>(0Day) Docker Desktop System Editor Uncontrolled Search Path Element  Privilege Escalation Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-26-259">ZDI-26-259</a></td><td>7.8</td><td>(0Day) Docker Desktop cli-plugins Incorrect Permission Assignment Local Privilege Escalation Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-26-258">ZDI-26-258</a></td><td>8.2</td><td>(0Day) Docker Desktop extension-manager Exposed Dangerous Function Local Privilege Escalation Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-26-152">ZDI-26-152</a></td><td>7.8</td><td>[CVE-2025-15558] Docker Desktop Docker Plugins Uncontrolled Search Path Element Local Privilege Escalation Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-26-150">ZDI-26-150</a></td><td>7.3</td><td>[CVE-2026-28400] Docker Desktop for Mac Docker Model Runner Exposed Dangerous Function Denial-of-Service Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-26-068">ZDI-26-068</a></td><td>6.7</td><td>[CVE-2025-14740] Docker Desktop for Windows Incorrect Permission Assignment Privilege Escalation Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-26-067">ZDI-26-067</a></td><td>6.7</td><td>[CVE-2025-14740] Docker Desktop for Windows Incorrect Permission Assignment Privilege Escalation Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-25-1057">ZDI-25-1057</a></td><td>7.8</td><td>(0Day) Microsoft Visual Studio VsDevCmd Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-25-858">ZDI-25-858</a></td><td>8.8</td><td>Axis Communications Autodesk Plugin AzureBlobRestAPI axiscontentfiles Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-25-844">ZDI-25-844</a></td><td>4.7</td><td>[CVE-2025-53788] Microsoft Windows Subsystem for Linux WslCoreVm::Initialize Incorrect Privilege Management Information Disclosure Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-25-422">ZDI-25-422</a></td><td>3.7</td><td>Microsoft Azure Machine Learning Environments Denial-of-Service Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-25-421">ZDI-25-421</a></td><td>5.3</td><td>Microsoft Azure App Services Information Disclosure Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-25-359">ZDI-25-359</a></td><td>7.8</td><td>[CVE-2025-47959] Microsoft Visual Studio initializeCommand Insufficient UI Warning Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-25-206">ZDI-25-206</a></td><td>9.8</td><td>Amazon AWS CloudFormation Templates Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-25-205">ZDI-25-205</a></td><td>9.8</td><td>Amazon AWS CloudFormation Templates Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-1329">ZDI-24-1329</a></td><td>8.8</td><td>Axis Communications Autodesk Plugin AxisAddin axisapphelpfiles Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-1328">ZDI-24-1328</a></td><td>8.8</td><td>Axis Communications Autodesk Plugin AzureBlobRestAPI axiscontentfiles Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-1181">ZDI-24-1181</a></td><td>7.6</td><td>Axis Communications Autodesk Plugin Exposure of Sensitive Information Authentication Bypass Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-1177">ZDI-24-1177</a></td><td>9.8</td><td>Amazon AWS CloudFormation Templates Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-1176">ZDI-24-1176</a></td><td>9.8</td><td>Amazon AWS aws-glue-with-s2s-vpn Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-1097">ZDI-24-1097</a></td><td>9.9</td><td>(0Day) Microsoft GitHub Dev-Containers Improper Privilege Management Privilege Escalation Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-1075">ZDI-24-1075</a></td><td>9.8</td><td>Microsoft PowerShell Reference for Office Products officedocs-cdn Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-1074">ZDI-24-1074</a></td><td>9.8</td><td>Microsoft PowerShell Gallery psg-prod-centralus Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-1073">ZDI-24-1073</a></td><td>9.8</td><td>Microsoft Azure uAMQP azure-iot-sdks-ci Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-1072">ZDI-24-1072</a></td><td>9.8</td><td>Microsoft CameraTraps cameratracrsppftkje Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-1071">ZDI-24-1071</a></td><td>9.8</td><td>Microsoft Azure GPT ALE palantirdemoacr Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-1070">ZDI-24-1070</a></td><td>9.8</td><td>Microsoft Partner Resources openhacks Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-1069">ZDI-24-1069</a></td><td>9.8</td><td>Microsoft Technical Case Studies athena-dashboard Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-1068">ZDI-24-1068</a></td><td>5.3</td><td>Microsoft Azure ML.NET Samples mlnetfilestorage Uncontrolled Search Path Element Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-1067">ZDI-24-1067</a></td><td>9.4</td><td>Microsoft Azure CollectSFData docs-analytics-eus Uncontrolled Search Path Element Impersonation Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-1066">ZDI-24-1066</a></td><td>9.8</td><td>Microsoft Azure DataStoriesSamples machinelearningdatasets Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-1065">ZDI-24-1065</a></td><td>9.8</td><td>Microsoft Azure Availability Monitor for Kafka esnewdeveastdockerregistry Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-1064">ZDI-24-1064</a></td><td>9.8</td><td>Microsoft AirSim airsimci Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-1063">ZDI-24-1063</a></td><td>9.8</td><td>Microsoft Reactor Workshops reactorworkshops Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-1062">ZDI-24-1062</a></td><td>9.8</td><td>Microsoft Fluid Framework prague Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-1061">ZDI-24-1061</a></td><td>9.8</td><td>Microsoft What The Hack docsmsftpdfs Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-1060">ZDI-24-1060</a></td><td>9.8</td><td>Microsoft Azure Aztack aztack1528763526 Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-1059">ZDI-24-1059</a></td><td>9.8</td><td>Microsoft Azure Linux Automation konkaciwestus1 Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-1058">ZDI-24-1058</a></td><td>9.8</td><td>Microsoft Azure NodeJS LogPoint logpointsassets Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-1588">ZDI-23-1588</a></td><td>8.8</td><td>Microsoft Azure US Accelarators Synapse SAS Token Incorrect Permission Assignment Authentication Bypass Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-1528">ZDI-23-1528</a></td><td>10.0</td><td>Microsoft PC Manager SAS Token Incorrect Permission Assignment Authentication Bypass Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-1527">ZDI-23-1527</a></td><td>10.0</td><td>Microsoft PC Manager SAS Token Incorrect Permission Assignment Authentication Bypass Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-1056">ZDI-23-1056</a></td><td>4.4</td><td>(0Day) Microsoft Azure Machine Learning Compute Instance certificate Exposure of Resource to Wrong Sphere Information Disclosure Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-1044">ZDI-23-1044</a></td><td>9.9</td><td>(0Day) Microsoft GitHub Dev-Containers Improper Privilege Management Privilege Escalation Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-998">ZDI-24-998</a></td><td>8.2</td><td>KernelCI SAS Token Incorrect Permission Assignment Authentication Bypass Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-993">ZDI-24-993</a></td><td>7.5</td><td>Microsoft Azure myapiendpoint.developer.azure-api Improper Access Control Information Disclosure Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-992">ZDI-24-992</a></td><td>9.8</td><td>Microsoft Azure VSTS CLI vstscli Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-991">ZDI-24-991</a></td><td>9.8</td><td>Microsoft Azure Arc Jumpstart Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-989">ZDI-24-989</a></td><td>9.8</td><td>Microsoft Azure Container Network Management sbidprod Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-988">ZDI-24-988</a></td><td>9.8</td><td>Microsoft Azure MQTT azure-iot-sdks-ci Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-987">ZDI-24-987</a></td><td>9.8</td><td>Microsoft Object Detection Solution Accelerator csaddevamlacr Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-986">ZDI-24-986</a></td><td>9.8</td><td>Microsoft Azure IoT Edge Dev Tool iotedgetoolscontainerregistry Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-985">ZDI-24-985</a></td><td>9.8</td><td>Microsoft Azure Service Fabric servicefabricsdkstorage Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-983">ZDI-24-983</a></td><td>9.8</td><td>Microsoft Azure Go Labs microsoftgoproxy Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-982">ZDI-24-982</a></td><td>5.3</td><td>Microsoft Azure SQL Workshop azuremlsampleexperiments Uncontrolled Search Path Element Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-981">ZDI-24-981</a></td><td>9.8</td><td>Microsoft Azure Machine Learning Notebooks azuremlpackages Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-980">ZDI-24-980</a></td><td>9.8</td><td>Microsoft Azure Machine Learning Forecasting Toolkit azuremlftkrelease Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-581">ZDI-24-581</a></td><td>10.0</td><td>Microsoft Azure SQL Managed Instance Documentation SAS Token Incorrect Permission Assignment Authentication Bypass Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-580">ZDI-24-580</a></td><td>9.8</td><td>Microsoft Artifact Registry Container Images Empty Password Authentication Bypass Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-400">ZDI-24-400</a></td><td>9.8</td><td>Microsoft uAMQP for Python azure-iot-sdks-ci Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-396">ZDI-24-396</a></td><td>9.8</td><td>Microsoft Azure ODSP nikisos Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-369">ZDI-24-369</a></td><td>5.3</td><td>Google cAdvisor REST API Improper Access Control Information Disclosure Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-24-208">ZDI-24-208</a></td><td>9.8</td><td>Microsoft Azure MCR VSTS CLI vstscli Uncontrolled Search Path Element Remote Code Execution Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-880">ZDI-23-880</a></td><td>5.5</td><td>[CVE-2023-28312] Microsoft Azure Machine Learning Service DSIMountAgent Missing Authentication Information Disclosure Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-380">ZDI-23-380</a></td><td>6.5</td><td>[CVE-2023-28312] Microsoft Azure Machine Learning Service DSIMountAgent Missing Authentication Information Disclosure Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-161">ZDI-23-161</a></td><td>6.5</td><td>[CVE-2023-23382] Microsoft Azure Machine Learning Service Cleartext Storage of Credentials Information Disclosure Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-097">ZDI-23-097</a></td><td>6.8</td><td>Microsoft Azure Machine Learning Service JWT Cleartext Storage of Credentials Information Disclosure Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-096">ZDI-23-096</a></td><td>6.5</td><td>Microsoft Azure Machine Learning Service Cleartext Storage of Credentials Information Disclosure Vulnerability</td></tr>
-            <tr><td class="hideextra"><a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/advisories/ZDI-23-095">ZDI-23-095</a></td><td>6.5</td><td>Microsoft Azure Machine Learning Service Cleartext Storage of Credentials Information Disclosure Vulnerability</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <section id="misc">
-      <strong>Misc</strong>
-      <ul>
-        <li>2024-10-22 - <a target="_blank" rel="noopener" href="https://msrc.microsoft.com/blog/2024/10/announcing-the-bluehat-2024-sessions/">Announcing the BlueHat 2024 Sessions | MSRC Blog</a></li>
-        <li>2024-08-06 - <a target="_blank" rel="noopener" href="https://msrc.microsoft.com/blog/2024/08/congratulations-to-the-msrc-2024-most-valuable-security-researchers/#congratulations-to-each-of-our-msrc-2024-most-valuable-researchers">MSRC: Congratulations to each of our MSRC 2024 Most Valuable Researchers!</a></li>
-        <li>2024-07-24 - <a target="_blank" rel="noopener" href="https://msrc.microsoft.com/blog/2024/07/congratulations-to-the-top-msrc-2024-q2-security-researchers/">MSRC: Congratulations to the Top MSRC 2024 Q2 Security Researchers!</a></li>
-        <li>2024-04-17 - <a target="_blank" rel="noopener" href="https://msrc.microsoft.com/blog/2024/04/congratulations-to-the-top-msrc-2024-q1-security-researchers/">MSRC: Congratulations to the Top MSRC 2024 Q1 Security Researchers!</a></li>
-        <li>2023-08-18 - <a target="_blank" rel="noopener" href="https://www.informationweek.com/cyber-resilience/4-of-the-biggest-vulnerabilities-talked-about-during-black-hat-2023">InformationWeek: 4 of the Biggest Vulnerabilities Talked About During Black Hat 2023</a></li>
-        <li>2023-08-10 - <a target="_blank" rel="noopener" href="https://www.techtarget.com/searchsecurity/news/366547713/Trend-Micro-discloses-silent-threat-flaws-in-Azure-ML">TechTarget: Trend Micro discloses 'silent threat' flaws in Azure ML</a></li>
-        <li>2023-02-14 - <a target="_blank" rel="noopener" href="https://www.zerodayinitiative.com/blog/2023/2/14/the-february-2023-security-update-overview">ZDI: The February 2023 Security Update Overview</a></li>
-        <li>2023-01-17 - <a target="_blank" rel="noopener" href="https://www.csoonline.com/article/574339/how-attackers-might-use-github-codespaces-to-hide-malware-delivery.html">CSOOnline: How attackers might use GitHub Codespaces to hide malware delivery</a></li>
-        <li>2022-09-14 - <a target="_blank" rel="noopener" href="https://www.darkreading.com/cloud-security/teamtnt-docker-containers-malicious-cloud-images">Dark Reading: TeamTNT Hits Docker Containers via 150K Malicious Cloud Image Pulls</a></li>
-        <li>2020-02-05 - <a target="_blank" rel="noopener" href="https://www.zdnet.com/article/bug-hunter-finds-cryptocurrency-mining-botnet-on-dod-network/">Bug hunter finds cryptocurrency-mining botnet on DOD network</a></li>
-        <li>2020-01-31 - <a target="_blank" rel="noopener" href="https://twitter.com/DC3VDP/status/1223260093355044865">DC3 VDP on X: Jenkins RCE mention</a></li>
-        <li>2020-11-20 - <a target="_blank" rel="noopener" href="https://niteshsurana.medium.com/cve-2020-25988-a-upnp-abuse-424f0db73129">First Router Bug (or a feature?)</a></li>
-        <li>2020-09-20 - <a target="_blank" rel="noopener" href="https://niteshsurana.medium.com/winja-ctf-x-nullcon-x-c0c0n-2020-9609498268c">Winja CTF x Nullcon x c0c0n 2020</a></li>
-        <li>2020-06-24 - <a target="_blank" rel="noopener" href="https://niteshsurana.medium.com/world-music-day-2020-and-a-simple-lfi-1f93c2f3145d">Popping LFI on Android Apps with over 21M+ Downloads</a></li>
-        <li>2020-01-18 - <a target="_blank" rel="noopener" href="https://github.com/ideaengine007/Presentations/blob/master/Metasploit_Primer.pdf">Null & OWASP Bangalore: A Primer on Metasploit</a></li>
-        <li>2019-12-21 - <a target="_blank" rel="noopener" href="https://github.com/ideaengine007/Presentations/blob/master/OSINT_Primer_1.pdf">Null & OWASP Bangalore: A Primer on OSINT</a></li>
-      </ul>
-    </section>
-
-    <footer align="center">
-      <div class="muted">This page is heavily inspired from <a target="_blank" rel="noopener" href="https://jameskettle.com/">James Kettle</a></div>
-      <div class="muted" style="margin-top:.6rem">
-        "It has to start somewhere. It has to start sometime. What better place than here? What better time than now?"
-        <br>
-        <a href="https://www.youtube.com/watch?v=n6cBRx2Ie6A">Guerrilla Radio, Rage Against The Machine.</a>
+<header>
+  <div class="wrap">
+    <div class="kicker">Cloud Threat Research — Portfolio & Disclosures</div>
+    <h1 id="name"></h1>
+    <div class="sub">
+      <span class="role" id="role"></span>
+      <span class="badges" id="badges"></span>
     </div>
-    </footer>
+    <div class="links" id="links"></div>
+  </div>
+</header>
 
+<main class="wrap">
+
+  <div class="upcoming">
+    <div class="up-label">Upcoming Talk</div>
+    <h2 class="up-title"><a id="up-talk-link" href=""></a></h2>
+    <div class="up-meta"><span id="up-conf"></span> · <span id="up-date"></span></div>
+    <details class="talk-abstract"><summary>Abstract</summary><div class="abs" id="up-abs"></div></details>
   </div>
 
-  <script>
-    (function(){
-      const btn = document.getElementById('dark-toggle');
-      if(!btn) return;
-      const stored = localStorage.getItem('theme');
-      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const initial = stored || (prefersDark ? 'dark' : 'light');
-      function apply(t){
-        if(t === 'dark'){
-          document.documentElement.setAttribute('data-theme','dark');
-          btn.textContent = '🕶';
-          btn.setAttribute('aria-pressed','true');
-        } else {
-          document.documentElement.removeAttribute('data-theme');
-          btn.textContent = '🕶';
-          btn.setAttribute('aria-pressed','false');
-        }
-      }
-      apply(initial);
-      btn.addEventListener('click', function(){
-        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-        const next = isDark ? 'light' : 'dark';
-        localStorage.setItem('theme', next);
-        apply(next);
-      });
-    })();
-    (function(){
-      const btn = document.getElementById('toggle-submissions');
-      const submissions = document.getElementById('submissions');
-      if(!btn || !submissions) return;
-      function isVisible(){
-        return window.getComputedStyle(submissions).display !== 'none';
-      }
-      function setVisible(v){
-        submissions.style.display = v ? 'block' : 'none';
-        btn.setAttribute('aria-expanded', v ? 'true' : 'false');
-        btn.textContent = v ? 'Hide' : 'Show';
-      }
-      btn.addEventListener('click', ()=>{ setVisible(!isVisible()); });
-      setVisible(false);
-    })();
-  </script>
+  <section id="about">
+    <div class="sec-head"><span class="sec-num">01</span><h2>About</h2></div>
+    <div class="about-grid">
+      <div class="prose" id="about-text"></div>
+      <div class="portrait"><img id="portrait" alt=""></div>
+    </div>
+  </section>
 
+  <section id="blogs">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Blogs</h2></div>
+    <table>
+      <thead><tr><th style="width:110px">Date</th><th>Title</th></tr></thead>
+      <tbody id="blogs-body"></tbody>
+    </table>
+  </section>
+
+  <section id="talks">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Talks</h2></div>
+    <table>
+      <thead><tr><th style="width:70px">Year</th><th style="width:230px">Venue</th><th>Title</th></tr></thead>
+      <tbody id="talks-body"></tbody>
+    </table>
+  </section>
+
+  <section id="zdi">
+    <div class="sec-head"><span class="sec-num">04</span><h2>ZDI Disclosures</h2></div>
+    <p class="note" id="zdi-note"></p>
+    <table>
+      <thead><tr><th style="width:120px">Advisory</th><th style="width:70px">CVSS</th><th>Vulnerability</th></tr></thead>
+      <tbody id="zdi-body"></tbody>
+    </table>
+  </section>
+
+  <section id="misc">
+    <div class="sec-head"><span class="sec-num">05</span><h2>Misc</h2></div>
+    <ul class="misc" id="misc-list"></ul>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <blockquote id="quote"></blockquote>
+    <p class="credit" id="credit"></p>
+  </div>
+</footer>
+
+<script>
+/* ── renderer ── */
+const $ = id => document.getElementById(id);
+const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const sev = v => v >= 9 ? "crit" : v >= 7 ? "high" : v >= 4 ? "med" : "low";
+
+document.title = `${DATA.name} — ${DATA.role}`;
+$("name").textContent = DATA.name;
+$("role").textContent = DATA.role;
+$("badges").textContent = DATA.badges.join(" / ");
+$("portrait").src = DATA.photo;
+$("portrait").alt = DATA.name;
+$("links").innerHTML = DATA.links.map(l => `<a href="${l.url}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("");
+$("about-text").innerHTML = DATA.about.map(p => `<p>${esc(p)}</p>`).join("");
+$("blogs-body").innerHTML = DATA.blogs.map(b =>
+  `<tr><td class="date">${b.date}</td><td class="title"><a href="${b.url}" target="_blank" rel="noopener">${esc(b.title)}</a></td></tr>`).join("");
+$("talks-body").innerHTML = DATA.talks.filter(t => !t.upcoming).map(t =>
+  `<tr><td class="year">${t.year}</td><td class="conf">${esc(t.conf)}</td><td class="title"><a href="${t.url}" target="_blank" rel="noopener">${esc(t.title)}</a></td></tr>` +
+  (t.desc ? `<tr><td colspan="3"><details class="talk-abstract"><summary>Abstract</summary><div class="abs">${esc(t.desc)}</div></details></td></tr>` : "")).join("");
+const up = DATA.talks.find(t => t.upcoming);
+if (up) {
+  $("up-talk-link").textContent = up.title;
+  $("up-talk-link").href = up.url;
+  $("up-conf").textContent = up.conf;
+  $("up-date").textContent = up.date || up.year;
+  $("up-abs").textContent = up.desc;
+}
+$("zdi-note").textContent = DATA.zdiNote;
+$("zdi-body").innerHTML = DATA.zdi.map(z =>
+  `<tr><td><a href="https://www.zerodayinitiative.com/advisories/${z.id}" target="_blank" rel="noopener">${z.id}</a></td>` +
+  `<td><span class="chip ${sev(z.cvss)}">${z.cvss.toFixed(1)}</span></td>` +
+  `<td class="title">${z.zero ? `<span class="tag0day">0-Day</span>` : ""}${esc(z.name)}</td></tr>`).join("");
+$("misc-list").innerHTML = DATA.misc.map(m =>
+  `<li><span class="date">${m.date}</span><a href="${m.url}" target="_blank" rel="noopener">${esc(m.title)}</a></li>`).join("");
+$("quote").innerHTML =
+  `“${esc(DATA.quote.text)}”<cite><a href="${DATA.quote.url}" target="_blank" rel="noopener">${esc(DATA.quote.cite)}</a></cite>`;
+$("credit").innerHTML = `This page is heavily inspired by <a href="${DATA.inspiredBy.url}" target="_blank" rel="noopener">${esc(DATA.inspiredBy.label)}</a>`;
+
+const themeBtn = $("theme-toggle");
+function syncThemeBtn(){
+  const t = document.documentElement.dataset.theme || "light";
+  themeBtn.textContent = t === "dark" ? "Light" : "Dark";
+}
+syncThemeBtn();
+themeBtn.addEventListener("click", () => {
+  const next = (document.documentElement.dataset.theme === "dark") ? "light" : "dark";
+  document.documentElement.dataset.theme = next;
+  localStorage.setItem("ns-theme", next);
+  syncThemeBtn();
+});
+</script>
 </body>
 </html>
